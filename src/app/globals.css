@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,4 +19,83 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+.vhs-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  backdrop-filter: blur(0.5px);
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(0, 0, 0, 0.02) 50%
+  );
+  background-size: 100% 4px;
+}
+
+.text-backdrop {
+  opacity: 0.9;
+  filter: blur(0.7px);
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(5px, -15px);
+  }
+  50% {
+    transform: translate(-5px, -25px);
+  }
+  75% {
+    transform: translate(5px, -15px);
+  }
+}
+
+@keyframes flicker {
+  0%, 95%, 100% {
+    opacity: 1;
+  }
+  96%, 99% {
+    opacity: 0.8;
+  }
+}
+
+.floating-title {
+  font-size: clamp(3rem, 10vw, 8rem);
+  animation: float 8s ease-in-out infinite, flicker 10s linear infinite;
+  transition: all 0.5s ease-out;
+  will-change: transform;
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.parallax-header {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  text-align: center;
+  transition: all 0.5s ease-out;
 }
