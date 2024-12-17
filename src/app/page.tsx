@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { ParallaxText } from '@/components/ParallaxText';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -26,34 +27,22 @@ export default function Home() {
         </h1>
       </div>
 
-      <div className="overflow-hidden w-full text-backdrop mt-[80vh]">
-        <div className="flex flex-col gap-8">
-          {[
-            "WELCOME TO THE FUTURE | 미래에 오신 것을 환영합니다",
-            "혁신은 여기서 시작됩니다 | INNOVATION STARTS HERE",
-            "BUILDING TOMORROW TODAY | 오늘 내일을 만듭니다",
-            "한계를 넘어서다 | PUSH THE BOUNDARIES",
-            "BREAK THE LIMITS | 한계를 깨다"
-          ].map((text, index) => (
-            <div key={index} className="relative">
-              <div
-                className="text-4xl sm:text-6xl font-['Black_Han_Sans'] whitespace-nowrap animate-marquee"
-                style={{
-                  animationDelay: `${index * 0.5}s`,
-                }}
-              >
-                <span className="mr-8">{text}</span>
-                <span className="mr-8">|</span>
-                <span className="mr-8">{text}</span>
-                <span className="mr-8">|</span>
-                <span className="mr-8">{text}</span>
-                <span className="mr-8">|</span>
-                <span className="mr-8">{text}</span>
-                <span className="mr-8">|</span>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="mt-[80vh] flex flex-col gap-2">
+        <ParallaxText baseVelocity={-1}>
+          WELCOME TO THE FUTURE | 미래에 오신 것을 환영합니다 |
+        </ParallaxText>
+        <ParallaxText baseVelocity={1}>
+          혁신은 여기서 시작됩니다 | INNOVATION STARTS HERE |
+        </ParallaxText>
+        <ParallaxText baseVelocity={-1}>
+          BUILDING TOMORROW TODAY | 오늘 내일을 만듭니다 |
+        </ParallaxText>
+        <ParallaxText baseVelocity={1}>
+          한계를 넘어서다 | PUSH THE BOUNDARIES |
+        </ParallaxText>
+        <ParallaxText baseVelocity={-1}>
+          BREAK THE LIMITS | 한계를 깨다 |
+        </ParallaxText>
       </div>
 
       <div className="vhs-overlay"></div>

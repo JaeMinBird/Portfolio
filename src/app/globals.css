@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -54,6 +54,13 @@ body {
 .animate-marquee {
   display: inline-block;
   animation: marquee 20s linear infinite;
+  padding-left: 100%;
+  white-space: nowrap;
+}
+
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
 }
 
 @keyframes float {
@@ -98,4 +105,23 @@ body {
   z-index: 20;
   text-align: center;
   transition: all 0.5s ease-out;
+}
+
+::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--foreground);
+  -webkit-border-radius: 1ex;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--background);
+}
+
+html {
+  scroll-snap-type: y mandatory;
 }
