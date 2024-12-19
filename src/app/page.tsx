@@ -22,7 +22,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white px-2 sm:p-8 relative">
+    <div className="min-h-screen bg-black text-white px-4 sm:p-8 relative">
       <ParallaxGrid scrollY={scrollY} />
       <div className="parallax-header text-backdrop" style={headerStyle}>
         <h1 className="floating-title font-['Black_Han_Sans']">
