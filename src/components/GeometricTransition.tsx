@@ -50,7 +50,7 @@ export function GeometricTransition() {
         variants={contentVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
-        className="relative z-10 w-full max-w-xl mx-auto px-8 sm:px-16 text-center"
+        className="relative z-10 w-full max-w-xl mx-auto px-12 sm:px-16 text-center"
       >
         <div className="relative">
           <h2 className="text-4xl font-['Black_Han_Sans'] mb-6 relative">
