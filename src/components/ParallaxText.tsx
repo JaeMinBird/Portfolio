@@ -45,7 +45,7 @@ export function ParallaxText({ children, baseVelocity = 20 }: ParallaxProps) {
   });
 
   return (
-    <div className="overflow-hidden whitespace-nowrap flex flex-nowrap relative w-screen md:w-[calc(100vw-5px)] -ml-8">
+    <div className="overflow-hidden whitespace-nowrap flex flex-nowrap relative w-[100vw] -ml-2 sm:-ml-8">
       <div className="absolute inset-0 backdrop-blur-[0.7px] opacity-90 pointer-events-none" />
       <motion.div 
         className="flex whitespace-nowrap font-['Black_Han_Sans'] text-4xl sm:text-6xl text-white/95"

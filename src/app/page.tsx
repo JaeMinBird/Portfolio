@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { ParallaxText } from '@/components/ParallaxText';
 import { GeometricTransition } from '@/components/GeometricTransition';
+import { ParallaxGrid } from '@/components/ParallaxGrid';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -21,7 +22,8 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-8 relative">
+    <div className="min-h-screen bg-black text-white px-2 sm:p-8 relative">
+      <ParallaxGrid scrollY={scrollY} />
       <div className="parallax-header text-backdrop" style={headerStyle}>
         <h1 className="floating-title font-['Black_Han_Sans']">
           Jae
