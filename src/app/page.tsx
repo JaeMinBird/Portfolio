@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { ParallaxText } from '@/components/ParallaxText';
+import { GeometricTransition } from '@/components/GeometricTransition';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -45,10 +46,9 @@ export default function Home() {
         </ParallaxText>
       </div>
 
-      <div className="vhs-overlay"></div>
+      <GeometricTransition />
 
-      {/* Add empty space for scrolling */}
-      <div className="h-[200vh]"></div>
+      <div className="vhs-overlay"></div>
     </div>
   );
 }

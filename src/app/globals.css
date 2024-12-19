@@ -125,3 +125,9 @@ body {
 html {
   scroll-snap-type: y mandatory;
 }
+
+.geometric-line {
+  transform-origin: left;
+  will-change: transform;
+  backface-visibility: hidden;
+}
