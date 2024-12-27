@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { ParallaxText } from '@/components/ParallaxText';
 import { GeometricTransition } from '@/components/GeometricTransition';
 import { ParallaxGrid } from '@/components/ParallaxGrid';
+import { TerminalExperience } from '@/components/TerminalExperience';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -25,8 +26,9 @@ export default function Home() {
     <div className="min-h-screen bg-black text-white px-4 sm:p-8 relative">
       <ParallaxGrid scrollY={scrollY} />
       <div className="parallax-header text-backdrop" style={headerStyle}>
-        <h1 className="floating-title font-['Black_Han_Sans']">
-          Jae
+        <h1 className="floating-title font-['Black_Han_Sans'] flex flex-col sm:flex-row sm:gap-4">
+          <span>Jae</span>
+          <span>Birdsall</span>
         </h1>
       </div>
 
@@ -49,6 +51,10 @@ export default function Home() {
       </div>
 
       <GeometricTransition />
+
+      <div className="relative z-10">
+        <TerminalExperience />
+      </div>
 
       <div className="vhs-overlay"></div>
     </div>

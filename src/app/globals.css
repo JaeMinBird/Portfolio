@@ -121,10 +121,39 @@ body {
 
 html {
   scroll-snap-type: y mandatory;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .geometric-line {
   transform-origin: left;
   will-change: transform;
   backface-visibility: hidden;
+}
+
+.terminal-text {
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink::after {
+  content: '_';
+  animation: blink 1s infinite;
+}
+
+.text-shadow-glow {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes terminal-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.terminal-cursor {
+  animation: terminal-blink 1s step-end infinite;
 }
