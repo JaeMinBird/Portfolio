@@ -39,27 +39,6 @@ body {
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
 }
 
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  display: inline-block;
-  animation: marquee 20s linear infinite;
-  padding-left: 100%;
-  white-space: nowrap;
-}
-
-.marquee-container {
-  width: 100%;
-  overflow: hidden;
-}
-
 @keyframes float {
   0%, 100% {
     transform: translate(0, 0);
@@ -125,35 +104,6 @@ html {
   overflow-x: hidden;
 }
 
-.geometric-line {
-  transform-origin: left;
-  will-change: transform;
-  backface-visibility: hidden;
-}
-
-.terminal-text {
-  text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.cursor-blink::after {
-  content: '_';
-  animation: blink 1s infinite;
-}
-
 .text-shadow-glow {
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-}
-
-@keyframes terminal-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-
-.terminal-cursor {
-  animation: terminal-blink 1s step-end infinite;
 }
