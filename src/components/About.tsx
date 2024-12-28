@@ -1,9 +1,13 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
-export function GeometricTransition() {
+export function About() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { margin: "-100px" });
+  const isInView = useInView(ref, {
+    margin: "-100px",
+    amount: "some",
+    once: true
+  });
 
   const boxVariants = {
     hidden: {

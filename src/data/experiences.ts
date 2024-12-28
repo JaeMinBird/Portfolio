@@ -54,5 +54,17 @@ export const experiences: Experience[] = [
       "Optimized database queries improving performance"
     ],
     techStack: ["JavaScript", "PHP", "MySQL", "jQuery", "Bootstrap"]
+  },
+  {
+    title: "Software Engineering Intern",
+    company: "CodeCraft Solutions",
+    period: "2016-2017",
+    description: [
+      "Developed and maintained internal tools and utilities",
+      "Assisted in migration of legacy systems",
+      "Created automated testing frameworks",
+      "Collaborated with senior developers on feature implementation"
+    ],
+    techStack: ["Java", "Spring Boot", "Angular", "Jenkins", "Git"]
   }
 ]; 

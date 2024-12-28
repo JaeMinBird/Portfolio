@@ -1,9 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { ParallaxText } from '@/components/ParallaxText';
-import { GeometricTransition } from '@/components/GeometricTransition';
+import { About } from '@/components/About';
 import { ParallaxGrid } from '@/components/ParallaxGrid';
-import { TerminalExperience } from '@/components/TerminalExperience';
+import { ExperienceTerminal } from '@/components/ExperienceTerminal';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -50,10 +50,10 @@ export default function Home() {
         </ParallaxText>
       </div>
 
-      <GeometricTransition />
+      <About />
 
       <div className="relative z-10">
-        <TerminalExperience />
+        <ExperienceTerminal />
       </div>
 
       <div className="vhs-overlay"></div>

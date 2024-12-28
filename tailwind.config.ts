@@ -15,6 +15,9 @@ export default {
       boxShadow: {
         'glow': '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff',
       },
+      textShadow: {
+        'strong': '0 0 15px rgba(255, 255, 255, 0.8)',
+      },
     },
   },
   plugins: [],
