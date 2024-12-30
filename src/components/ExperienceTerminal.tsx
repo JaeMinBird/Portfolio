@@ -50,14 +50,14 @@ export function ExperienceTerminal() {
           <span className="font-mono text-white/90">experiences.exe</span>
           <div className="flex gap-2">
             <div className="relative group">
-              <span className="font-mono text-white/90 text-xl leading-none">-</span>
-              <span className="absolute hidden group-hover:block whitespace-nowrap bg-black/90 text-white text-xs px-2 py-1 rounded top-0 left-full ml-2">
+              <span className="font-mono text-white/90 text-xl leading-none neon-hover">-</span>
+              <span className="absolute hidden group-hover:block whitespace-nowrap bg-black/90 text-white text-xs px-2 py-1 rounded bottom-full left-1/2 -translate-x-1/2 mb-2">
                 can&apos;t do that（｀▽´ )
               </span>
             </div>
             <div className="relative group">
-              <span className="font-mono text-white/90 text-xl leading-none">×</span>
-              <span className="absolute hidden group-hover:block whitespace-nowrap bg-black/90 text-white text-xs px-2 py-1 rounded top-0 left-full ml-2">
+              <span className="font-mono text-white/90 text-xl leading-none neon-hover">×</span>
+              <span className="absolute hidden group-hover:block whitespace-nowrap bg-black/90 text-white text-xs px-2 py-1 rounded bottom-full left-1/2 -translate-x-1/2 mb-2">
                 can&apos;t do that（｀▽´ )
               </span>
             </div>
@@ -71,7 +71,8 @@ export function ExperienceTerminal() {
               key={index}
               onClick={() => handleTabClick(index)}
               className={`px-3 py-1.5 font-mono text-xs transition-colors relative
-                        hover:text-shadow-strong flex-1 ${index !== experiences.length - 1 ? 'border-r-2 border-white/20' : ''}`}
+                        hover:text-shadow-strong flex-1 neon-hover-subtle
+                        ${index !== experiences.length - 1 ? 'border-r-2 border-white/20' : ''}`}
             >
               <span className={`relative z-10 ${currentIndex === index ? 'text-white' : 'text-white/70'}`}>
                 exp_{getFormattedIndex(index)}
@@ -128,7 +129,7 @@ export function ExperienceTerminal() {
                 {experiences[currentIndex].techStack.map((tech, i) => (
                   <span
                     key={i}
-                    className="px-2 py-1 border border-white/40 text-sm text-shadow-glow hover:border-white/80 transition-colors"
+                    className="px-2 py-1 border border-white/40 text-sm neon-hover hover:border-white/80 transition-colors"
                   >
                     {tech}
                   </span>
