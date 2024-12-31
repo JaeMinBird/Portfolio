@@ -7,6 +7,8 @@ import { ExperienceTerminal } from '@/components/ExperienceTerminal';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [circlePosition, setCirclePosition] = useState({ x: -100, y: -100 });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +19,37 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  useEffect(() => {
+    let rafId: number;
+    let lastUpdate = 0;
+    const minInterval = 1000 / 60; // Cap at 60fps
+
+    const followMouse = (timestamp: number) => {
+      if (timestamp - lastUpdate >= minInterval) {
+        setCirclePosition(prev => ({
+          x: prev.x + (mousePosition.x - prev.x) * 0.1,
+          y: prev.y + (mousePosition.y - prev.y) * 0.1
+        }));
+        lastUpdate = timestamp;
+      }
+      rafId = requestAnimationFrame(followMouse);
+    };
+    
+    rafId = requestAnimationFrame(followMouse);
+    return () => cancelAnimationFrame(rafId);
+  }, [mousePosition]);
+
   const headerStyle = {
     opacity: Math.max(0, 1 - scrollY / 500),
     transform: `translate(-50%, calc(-50% - ${scrollY * 0.2}px))`,
@@ -24,6 +57,18 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black text-white px-4 sm:p-8 relative">
+      <div 
+        className="pointer-events-none fixed mix-blend-difference will-change-transform"
+        style={{
+          width: '15px',
+          height: '15px',
+          background: 'white',
+          borderRadius: '50%',
+          transform: `translate3d(${circlePosition.x - 45}px, ${circlePosition.y - 45}px, 0)`,
+          zIndex: 9999,
+          opacity: circlePosition.x < 0 ? 0 : 1,
+        }}
+      />
       <ParallaxGrid scrollY={scrollY} />
       <div className="parallax-header text-backdrop" style={headerStyle}>
         <h1 className="floating-title font-['Black_Han_Sans'] flex flex-col sm:flex-row sm:gap-4">
