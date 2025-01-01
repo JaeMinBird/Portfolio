@@ -16,15 +16,13 @@ export default function Home() {
     const current = circlePositionRef.current;
     const target = mousePosition;
     
-    // Reduced smoothing for more responsive tracking
-    const smoothing = 0.3; // Smoother, but more responsive
+    const smoothing = 0.3;
     
     const newX = current.x + (target.x - current.x) * smoothing;
     const newY = current.y + (target.y - current.y) * smoothing;
     
     circlePositionRef.current = { x: newX, y: newY };
     
-    // Force re-render
     setMousePosition(prev => ({ ...prev }));
   }, [mousePosition]);
 
@@ -37,16 +35,14 @@ export default function Home() {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    // Hide default cursor and remove pointer cursor for interactables
+    // Remove pointer cursor for interactables, but keep standard cursor
     const styleElement = document.createElement('style');
     styleElement.innerHTML = `
       a, button, [role="button"], .interactable {
-        cursor: none !important;
+        cursor: inherit !important;
       }
     `;
     document.head.appendChild(styleElement);
-
-    document.body.style.cursor = 'none';
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('mousemove', handleMouseMove);
@@ -54,7 +50,6 @@ export default function Home() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
-      document.body.style.cursor = 'auto';
       document.head.removeChild(styleElement);
     };
   }, []);
@@ -110,12 +105,13 @@ export default function Home() {
           height: isHoveringInteractable ? '20px' : '15px',
           background: 'white',
           borderRadius: isHoveringInteractable ? '0%' : '50%',
-          transform: `translate3d(${circlePositionRef.current.x - 35}px, ${circlePositionRef.current.y - 35}px, 0) 
+          transform: `translate3d(${circlePositionRef.current.x - 39}px, ${circlePositionRef.current.y - 39}px, 0) 
                      ${isHoveringInteractable ? 'rotate(45deg)' : ''}`,
           zIndex: 9999,
           opacity: circlePositionRef.current.x < 0 ? 0 : 1,
-          transition: 'all 0.1s ease-out', // Even faster transition
-          filter: 'blur(0.5px)', // Minimal blur
+          transition: 'all 0.1s ease-out',
+          filter: 'blur(0.5px)',
+          pointerEvents: 'none',
         }}
       />
       <ParallaxGrid scrollY={scrollY} />
