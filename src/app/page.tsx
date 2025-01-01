@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { ParallaxText } from '@/components/ParallaxText';
 import { About } from '@/components/About';
 import { ParallaxGrid } from '@/components/ParallaxGrid';
@@ -8,47 +8,93 @@ import { ExperienceTerminal } from '@/components/ExperienceTerminal';
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [circlePosition, setCirclePosition] = useState({ x: -100, y: -100 });
+  const circlePositionRef = useRef({ x: -100, y: -100 });
+  const [isHoveringInteractable, setIsHoveringInteractable] = useState(false);
+  const rafIdRef = useRef<number | null>(null);
+
+  const updateCirclePosition = useCallback(() => {
+    const current = circlePositionRef.current;
+    const target = mousePosition;
+    
+    // Reduced smoothing for more responsive tracking
+    const smoothing = 0.3; // Smoother, but more responsive
+    
+    const newX = current.x + (target.x - current.x) * smoothing;
+    const newY = current.y + (target.y - current.y) * smoothing;
+    
+    circlePositionRef.current = { x: newX, y: newY };
+    
+    // Force re-render
+    setMousePosition(prev => ({ ...prev }));
+  }, [mousePosition]);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
+    // Hide default cursor and remove pointer cursor for interactables
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = `
+      a, button, [role="button"], .interactable {
+        cursor: none !important;
+      }
+    `;
+    document.head.appendChild(styleElement);
+
+    document.body.style.cursor = 'none';
+
+    window.addEventListener('scroll', handleScroll);
     window.addEventListener('mousemove', handleMouseMove);
+    
     return () => {
+      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
+      document.body.style.cursor = 'auto';
+      document.head.removeChild(styleElement);
     };
   }, []);
 
   useEffect(() => {
-    let rafId: number;
-    let lastUpdate = 0;
-    const minInterval = 1000 / 60; // Cap at 60fps
-
-    const followMouse = (timestamp: number) => {
-      if (timestamp - lastUpdate >= minInterval) {
-        setCirclePosition(prev => ({
-          x: prev.x + (mousePosition.x - prev.x) * 0.1,
-          y: prev.y + (mousePosition.y - prev.y) * 0.1
-        }));
-        lastUpdate = timestamp;
-      }
-      rafId = requestAnimationFrame(followMouse);
+    // Use requestAnimationFrame for smooth animation
+    const animate = () => {
+      updateCirclePosition();
+      rafIdRef.current = requestAnimationFrame(animate);
     };
+
+    rafIdRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
+  }, [updateCirclePosition]);
+
+  // Add event listeners for interactable elements
+  useEffect(() => {
+    const handleInteractableEnter = () => setIsHoveringInteractable(true);
+    const handleInteractableLeave = () => setIsHoveringInteractable(false);
+
+    // Select all interactable elements
+    const interactables = document.querySelectorAll('a, button, [role="button"], .interactable');
     
-    rafId = requestAnimationFrame(followMouse);
-    return () => cancelAnimationFrame(rafId);
-  }, [mousePosition]);
+    interactables.forEach(el => {
+      el.addEventListener('mouseenter', handleInteractableEnter);
+      el.addEventListener('mouseleave', handleInteractableLeave);
+    });
+
+    return () => {
+      interactables.forEach(el => {
+        el.removeEventListener('mouseenter', handleInteractableEnter);
+        el.removeEventListener('mouseleave', handleInteractableLeave);
+      });
+    };
+  }, []);
 
   const headerStyle = {
     opacity: Math.max(0, 1 - scrollY / 500),
@@ -60,13 +106,16 @@ export default function Home() {
       <div 
         className="pointer-events-none fixed mix-blend-difference will-change-transform"
         style={{
-          width: '15px',
-          height: '15px',
+          width: isHoveringInteractable ? '20px' : '15px',
+          height: isHoveringInteractable ? '20px' : '15px',
           background: 'white',
-          borderRadius: '50%',
-          transform: `translate3d(${circlePosition.x - 45}px, ${circlePosition.y - 45}px, 0)`,
+          borderRadius: isHoveringInteractable ? '0%' : '50%',
+          transform: `translate3d(${circlePositionRef.current.x - 35}px, ${circlePositionRef.current.y - 35}px, 0) 
+                     ${isHoveringInteractable ? 'rotate(45deg)' : ''}`,
           zIndex: 9999,
-          opacity: circlePosition.x < 0 ? 0 : 1,
+          opacity: circlePositionRef.current.x < 0 ? 0 : 1,
+          transition: 'all 0.1s ease-out', // Even faster transition
+          filter: 'blur(0.5px)', // Minimal blur
         }}
       />
       <ParallaxGrid scrollY={scrollY} />
