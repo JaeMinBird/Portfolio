@@ -4,6 +4,7 @@ import { ParallaxText } from '@/components/ParallaxText';
 import { About } from '@/components/About';
 import { ParallaxGrid } from '@/components/ParallaxGrid';
 import { ExperienceTerminal } from '@/components/ExperienceTerminal';
+import { ProjectsTerminal } from '@/components/ProjectsTerminal';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -146,6 +147,7 @@ export default function Home() {
         <ExperienceTerminal />
       </div>
 
+      <ProjectsTerminal />
       <div className="vhs-overlay"></div>
     </div>
   );
