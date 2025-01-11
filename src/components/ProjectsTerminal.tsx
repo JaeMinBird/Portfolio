@@ -1,12 +1,24 @@
 'use client';
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { projects } from "@/data/projects";
+import { ProjectProgressCircle } from "./ProjectProgressCircle";
 
 export function ProjectsTerminal() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
+  const [maxHeight, setMaxHeight] = useState(375); // Default height
+  const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    // Find the maximum height among all project detail divs
+    const heights = projectRefs.current
+      .filter(ref => ref !== null)
+      .map(ref => ref.scrollHeight);
+    
+    const newMaxHeight = Math.max(...heights, 375) + 75; // Increased from 50 to 75
+    setMaxHeight(newMaxHeight);
+  }, []);
 
   const handleTabClick = useCallback((index: number) => {
     if (index === currentIndex) return;
@@ -22,7 +34,10 @@ export function ProjectsTerminal() {
 
   return (
     <div className="flex justify-center items-center mt-8 mb-16">
-      <div className="relative w-full max-w-4xl border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)] h-[375px] flex flex-col">
+      <div 
+        className="relative w-full max-w-4xl border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)] flex flex-col"
+        style={{ height: `${maxHeight}px` }}
+      >
         {/* Window Title Bar */}
         <div className="flex justify-between items-center px-4 py-2 bg-white/10 border-b-2 border-white/20">
           <span className="font-mono text-white/90">projects.exe</span>
@@ -78,79 +93,10 @@ export function ProjectsTerminal() {
 
             {/* Progress Circle */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-              <div className="relative w-16 h-16">
-                <svg viewBox="0 0 36 36" className="absolute top-0 left-0 w-full h-full rotate-[0]">
-                  {/* Thin Inner Circle with dots aligned to line endpoints */}
-                  {projects.map((_, sectionIndex) => {
-                    const linesPerSection = 8;
-                    const sectionAngle = 360 / projects.length;
-                    const startAngle = sectionIndex * sectionAngle - 90;
-
-                    return Array.from({ length: linesPerSection }).map((_, lineIndex) => {
-                      const lineAngle = startAngle + (lineIndex * sectionAngle / linesPerSection);
-                      
-                      const x = 18 + 14 * 0.8 * Math.cos((lineAngle) * Math.PI / 180);
-                      const y = 18 + 14 * 0.8 * Math.sin((lineAngle) * Math.PI / 180);
-
-                      return (
-                        <circle
-                          key={`dot-${sectionIndex}-${lineIndex}`}
-                          cx={x}
-                          cy={y}
-                          r="0.5"
-                          fill="rgba(255,255,255,0.1)"
-                        />
-                      );
-                    });
-                  })}
-                  
-                  {/* Sectioned Progress Arc with Radial Lines */}
-                  {projects.map((_, sectionIndex) => {
-                    const linesPerSection = 8;
-                    const sectionAngle = 360 / projects.length;
-                    const startAngle = sectionIndex * sectionAngle - 90;
-                    const absoluteLineIndex = sectionIndex * linesPerSection;
-
-                    return Array.from({ length: linesPerSection }).map((_, lineIndex) => {
-                      const lineAngle = startAngle + (lineIndex * sectionAngle / linesPerSection);
-                      const absoluteCurrentLine = currentIndex * linesPerSection + lineIndex;
-                      
-                      const isActive = 
-                        sectionIndex < currentIndex + 1 && 
-                        absoluteCurrentLine < (currentIndex + 1) * linesPerSection;
-
-                      const x1 = 18 + 14 * Math.cos((lineAngle) * Math.PI / 180);
-                      const y1 = 18 + 14 * Math.sin((lineAngle) * Math.PI / 180);
-                      const x2 = 18 + 14 * 0.8 * Math.cos((lineAngle) * Math.PI / 180);
-                      const y2 = 18 + 14 * 0.8 * Math.sin((lineAngle) * Math.PI / 180);
-
-                      return (
-                        <motion.line
-                          key={`${sectionIndex}-${lineIndex}`}
-                          x1={x1}
-                          y1={y1}
-                          x2={x2}
-                          y2={y2}
-                          strokeWidth="0.7"
-                          className={`transition-all duration-100 ease-out 
-                            ${isActive 
-                              ? 'stroke-white/80 neon-progress-line' 
-                              : 'stroke-transparent'
-                            }`}
-                          initial={{ strokeOpacity: 0 }}
-                          animate={{ 
-                            strokeOpacity: isActive ? 1 : 0,
-                            transition: { 
-                              duration: 0.1, 
-                              delay: isActive ? (absoluteLineIndex + lineIndex) * 0.02 : 0
-                            }
-                          }}
-                        />
-                      );
-                    });
-                  })}
-                </svg>
-              </div>
+              <ProjectProgressCircle 
+                projects={projects} 
+                currentIndex={currentIndex} 
+              />
             </div>
           </div>
 
@@ -158,7 +104,11 @@ export function ProjectsTerminal() {
           <div className="w-2/3 p-6 font-mono bg-black/80 backdrop-blur-sm relative">
             <AnimatePresence mode="wait">
               <motion.div
-                ref={ref}
+                ref={(el) => {
+                  if (el) {
+                    projectRefs.current[currentIndex] = el;
+                  }
+                }}
                 key={currentIndex}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
