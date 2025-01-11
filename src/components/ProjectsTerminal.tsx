@@ -8,7 +8,19 @@ import { ProjectProgressCircle } from "./ProjectProgressCircle";
 export function ProjectsTerminal() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [maxHeight, setMaxHeight] = useState(375); // Default height
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1024
+  );
   const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     // Find the maximum height among all project detail divs
@@ -16,7 +28,7 @@ export function ProjectsTerminal() {
       .filter(ref => ref !== null)
       .map(ref => ref.scrollHeight);
     
-    const newMaxHeight = Math.max(...heights, 375) + 75; // Increased from 50 to 75
+    const newMaxHeight = Math.max(...heights, 375) + 80;
     setMaxHeight(newMaxHeight);
   }, []);
 
@@ -26,7 +38,11 @@ export function ProjectsTerminal() {
   }, [currentIndex]);
 
   const getFormattedProjectName = (name: string) => {
-    const maxLength = 15;
+    const absoluteMaxLength = 25; // Maximum absolute length
+    const relativeMaxLength = Math.floor(windowWidth * 0.05); // 5% of screen width
+    
+    const maxLength = Math.min(absoluteMaxLength, relativeMaxLength);
+    
     return name.length > maxLength 
       ? `${name.slice(0, maxLength - 3)}...` 
       : name;
@@ -35,7 +51,7 @@ export function ProjectsTerminal() {
   return (
     <div className="flex justify-center items-center mt-8 mb-16">
       <div 
-        className="relative w-full max-w-4xl border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)] flex flex-col"
+        className="relative w-full max-w-2xl border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)] flex flex-col"
         style={{ height: `${maxHeight}px` }}
       >
         {/* Window Title Bar */}
@@ -59,37 +75,52 @@ export function ProjectsTerminal() {
         <div className="flex relative flex-1 overflow-hidden">
           {/* Project Tabs Column */}
           <div className="w-1/3 bg-black/40 border-r-2 border-white/20 relative">
-            {projects.map((project, index) => (
-              <button
-                key={index}
-                onClick={() => handleTabClick(index)}
-                className={`w-full px-3 py-2 text-left flex items-center justify-between 
-                  transition-colors relative group
-                  ${index !== projects.length - 1 ? 'border-b-2 border-white/20' : ''}`}
-              >
-                <span className={`font-mono text-xs transition-colors 
-                  ${currentIndex === index ? 'text-white' : 'text-white/70'}`}>
-                  {getFormattedProjectName(project.name)}
-                </span>
-                <svg 
-                  viewBox="0 0 16 16" 
-                  className="w-6 h-6 ml-2"
+            <div className="relative">
+              <AnimatePresence>
+                <motion.div 
+                  layoutId="tab-highlight"
+                  className="absolute bg-white/15 w-full"
+                  initial={false}
+                  animate={{
+                    top: `${currentIndex * 25}%`,
+                    transition: { 
+                      duration: 0.3, 
+                      ease: "easeInOut" 
+                    }
+                  }}
+                  style={{
+                    height: `${98 / projects.length}%`
+                  }}
+                />
+              </AnimatePresence>
+              {projects.map((project, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleTabClick(index)}
+                  className={`w-full px-3 py-2 text-left flex items-center justify-between 
+                    transition-colors relative
+                    border-b-2 border-white/20 overflow-hidden`}
                 >
-                  <path 
-                    d={project.pixelIcon} 
-                    fill="currentColor" 
-                    className={`transition-colors 
-                      ${currentIndex === index ? 'text-white' : 'text-white/70'}`} 
-                  />
-                </svg>
-                {currentIndex === index && (
-                  <motion.div 
-                    layoutId="project-tab-highlight"
-                    className="absolute inset-0 bg-white/10 z-[-1]" 
-                  />
-                )}
-              </button>
-            ))}
+                  <span 
+                    className={`font-mono text-xs transition-colors truncate pr-2 relative z-10
+                      ${currentIndex === index ? 'text-white' : 'text-white/70'}`}
+                  >
+                    {getFormattedProjectName(project.name)}
+                  </span>
+                  <svg 
+                    viewBox="0 0 16 16" 
+                    className="w-6 h-6 ml-2 flex-shrink-0 relative z-10"
+                  >
+                    <path 
+                      d={project.pixelIcon} 
+                      fill="currentColor" 
+                      className={`transition-colors relative z-10
+                        ${currentIndex === index ? 'text-white' : 'text-white/70'}`} 
+                    />
+                  </svg>
+                </button>
+              ))}
+            </div>
 
             {/* Progress Circle */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
@@ -114,7 +145,7 @@ export function ProjectsTerminal() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="text-white/90 space-y-3"
+                className="text-white space-y-3"
               >
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -122,7 +153,7 @@ export function ProjectsTerminal() {
                   transition={{ delay: 0.2 }}
                   className="flex justify-between items-start"
                 >
-                  <h2 className="text-xl font-bold text-shadow-glow">
+                  <h2 className="text-xl font-bold">
                     {projects[currentIndex].name}
                   </h2>
                   <svg 
