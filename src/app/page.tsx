@@ -147,7 +147,9 @@ export default function Home() {
         <ExperienceTerminal />
       </div>
 
-      <ProjectsTerminal />
+      <div className="mt-[25vh]">
+        <ProjectsTerminal />
+      </div>
       <div className="vhs-overlay"></div>
     </div>
   );

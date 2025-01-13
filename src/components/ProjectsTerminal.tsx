@@ -55,11 +55,11 @@ export function ProjectsTerminal() {
         style={{ height: `${maxHeight}px` }}
       >
         {/* Window Title Bar */}
-        <div className="flex justify-between items-center px-4 py-2 bg-white/10 border-b-2 border-white/20">
-          <span className="font-mono text-white/90">projects.exe</span>
-          <div className="flex gap-2">
+        <div className="relative z-20 flex justify-between items-center px-4 py-2 bg-white/10 border-b-2 border-white/20">
+          <span className="relative z-20 font-mono text-white/90">projects.exe</span>
+          <div className="relative z-20 flex gap-2">
             {['-', '×'].map((button) => (
-              <div key={button} className="relative group">
+              <div key={button} className="relative group z-20">
                 <span className="font-mono text-white/90 text-xl leading-none neon-hover">
                   {button}
                 </span>
@@ -114,7 +114,7 @@ export function ProjectsTerminal() {
                     <path 
                       d={project.pixelIcon} 
                       fill="currentColor" 
-                      className={`transition-colors relative z-10
+                      className={`transition-colors
                         ${currentIndex === index ? 'text-white' : 'text-white/70'}`} 
                     />
                   </svg>
@@ -151,14 +151,14 @@ export function ProjectsTerminal() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
-                  className="flex justify-between items-start"
+                  className="flex justify-between items-start relative z-20"
                 >
-                  <h2 className="text-xl font-bold">
+                  <h2 className="text-xl font-bold relative z-20">
                     {projects[currentIndex].name}
                   </h2>
                   <svg 
                     viewBox="0 0 16 16" 
-                    className="w-12 h-12"
+                    className="w-12 h-12 relative z-20"
                   >
                     <path 
                       d={projects[currentIndex].pixelIcon} 
@@ -172,25 +172,28 @@ export function ProjectsTerminal() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="mb-2"
+                  className="mb-2 relative z-20"
                 >
-                  <span className="text-white font-bold text-shadow-glow mr-2">TIMELINE:</span>
-                  {projects[currentIndex].dateRange}
+                  <span className="text-white font-bold mr-2 relative z-20">TIMELINE:</span>
+                  <span className="relative z-20">
+                    {projects[currentIndex].dateRange}
+                  </span>
                 </motion.div>
 
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4 }}
+                  className="relative z-20"
                 >
-                  <span className="text-white font-bold text-shadow-glow">DESCRIPTION:</span>
+                  <span className="text-white font-bold relative z-20">DESCRIPTION:</span>
                   {projects[currentIndex].description.map((desc, i) => (
                     <motion.div
                       key={i}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.5 + i * 0.1 }}
-                      className="ml-4 text-shadow-glow"
+                      className="ml-4 relative z-20"
                     >
                       $ {desc}
                     </motion.div>
@@ -201,12 +204,12 @@ export function ProjectsTerminal() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.6 }}
-                  className="flex flex-wrap gap-2 justify-center mt-4"
+                  className="flex flex-wrap gap-2 justify-center mt-4 relative z-20"
                 >
                   {projects[currentIndex].techStack.map((tech, i) => (
                     <span
                       key={i}
-                      className="px-2 py-1 border border-white/40 text-sm neon-hover hover:border-white/80 transition-colors"
+                      className="px-2 py-1 border border-white/40 text-sm neon-hover hover:border-white/80 transition-colors relative z-20"
                     >
                       {tech}
                     </span>
