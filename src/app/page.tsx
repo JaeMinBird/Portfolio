@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState, useRef, useCallback } from 'react';
+import { Header } from '@/components/Header';
 import { ParallaxText } from '@/components/ParallaxText';
 import { About } from '@/components/About';
 import { ParallaxGrid } from '@/components/ParallaxGrid';
@@ -100,6 +101,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black text-white px-4 sm:p-8 relative">
+      <Header />
       <div 
         className="pointer-events-none fixed mix-blend-difference will-change-transform"
         style={{
@@ -117,14 +119,14 @@ export default function Home() {
         }}
       />
       <ParallaxGrid scrollY={scrollY} />
-      <div className="parallax-header text-backdrop" style={headerStyle}>
+      <section id="hero" className="parallax-header text-backdrop" style={headerStyle}>
         <h1 className="floating-title font-['Black_Han_Sans'] flex flex-col sm:flex-row sm:gap-4">
           <span>Jae</span>
           <span>Birdsall</span>
         </h1>
-      </div>
+      </section>
 
-      <div className="mt-[80vh] flex flex-col gap-2">
+      <section id="parallax-text" className="mt-[80vh] flex flex-col gap-2">
         <ParallaxText baseVelocity={-1}>
           WELCOME TO THE FUTURE | 미래에 오신 것을 환영합니다 |
         </ParallaxText>
@@ -140,21 +142,23 @@ export default function Home() {
         <ParallaxText baseVelocity={-1}>
           BREAK THE LIMITS | 한계를 깨다 |
         </ParallaxText>
-      </div>
+      </section>
 
-      <About />
+      <section id="about">
+        <About />
+      </section>
 
-      <div className="relative z-10">
+      <section id="experience" className="relative z-10">
         <ExperienceTerminal />
-      </div>
+      </section>
 
-      <div className="mt-[25vh]">
+      <section id="projects" className="mt-[25vh]">
         <ProjectsTerminal />
-      </div>
+      </section>
       
-      <div className="mt-[25vh] relative z-10">
+      <section id="contact" className="mt-[25vh] relative z-10">
         <ContactTerminal />
-      </div>
+      </section>
       
       <div className="vhs-overlay"></div>
     </div>
