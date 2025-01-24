@@ -1,11 +1,11 @@
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-interface CustomCursorProps {
+interface CursorProps {
   smoothing?: number;
 }
 
-export const Cursor = ({ smoothing = 0.3 }: CustomCursorProps) => {
+export const Cursor = ({ smoothing = 0.3 }: CursorProps) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHoveringInteractable, setIsHoveringInteractable] = useState(false);
   const circlePositionRef = useRef({ x: -100, y: -100 });

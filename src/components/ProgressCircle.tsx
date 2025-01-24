@@ -2,15 +2,15 @@ import { motion } from "framer-motion";
 import React, { memo } from "react";
 import { Project } from "@/data/projects";
 
-interface ProjectProgressCircleProps {
+interface ProgressCircleProps {
   projects: Project[];
   currentIndex: number;
 }
 
-export const ProjectProgressCircle = memo(({ 
+export const ProgressCircle = memo(({ 
   projects, 
   currentIndex 
-}: ProjectProgressCircleProps) => {
+}: ProgressCircleProps) => {
   return (
     <div className="relative w-16 h-16">
       <svg viewBox="0 0 36 36" className="absolute top-0 left-0 w-full h-full rotate-[0]">
@@ -91,4 +91,4 @@ export const ProjectProgressCircle = memo(({
 });
 
 // Add display name for better debugging
-ProjectProgressCircle.displayName = 'ProjectProgressCircle'; 
+ProgressCircle.displayName = 'ProgressCircle'; 

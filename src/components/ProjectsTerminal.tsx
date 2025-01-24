@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { projects } from "@/data/projects";
-import { ProjectProgressCircle } from "./ProjectProgressCircle";
+import { ProgressCircle } from "./ProgressCircle";
 
 export function ProjectsTerminal() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -124,7 +124,7 @@ export function ProjectsTerminal() {
 
             {/* Progress Circle */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-              <ProjectProgressCircle 
+              <ProgressCircle 
                 projects={projects} 
                 currentIndex={currentIndex} 
               />

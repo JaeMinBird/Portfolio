@@ -14,69 +14,66 @@ const NAV_ITEMS = [
 export function Header() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [isNameHovered, setIsNameHovered] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  const handleClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      const scrollToTarget = () => {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      };
+
+      scrollToTarget();
+      
+      // If it's the initial load, set a timeout to scroll again
+      if (isInitialLoad) {
+        setTimeout(() => {
+          scrollToTarget();
+          setIsInitialLoad(false);
+        }, 1000); // Adjust timeout based on your parallax animation duration
+      }
+    }
+  };
 
   return (
     <header className="fixed left-0 top-0 w-full hidden md:flex items-center justify-between p-4 z-50 font-mono">
       {/* Name and Developer Title Section */}
       <Link 
         href="/" 
-        className="group flex flex-col"
+        className="group flex flex-col relative"
         onMouseEnter={() => setIsNameHovered(true)}
         onMouseLeave={() => setIsNameHovered(false)}
       >
-        <div className="text-4xl font-bold relative overflow-hidden">
-          <span className="block text-white/20 absolute inset-0">Jae</span>
-          <motion.span 
-            className="block text-transparent bg-clip-text bg-white relative z-10"
-            style={{
-              WebkitTextStroke: '1px white',
-              WebkitTextFillColor: 'transparent',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              background: 'white',
-              zIndex: 20,
-              height: isNameHovered ? '100%' : 0,
+        <div className="relative overflow-hidden">
+          <motion.div
+            className="absolute left-0 top-0 h-full w-full bg-white z-0"
+            initial={{ scaleX: 0, originX: 0 }}
+            animate={{
+              scaleX: isNameHovered ? 1 : 0
             }}
-            initial={{ height: 0 }}
-            animate={{ 
-              height: isNameHovered ? '100%' : 0,
-              transition: { 
-                duration: 0.3,
-                ease: "easeInOut"
-              }
+            transition={{
+              duration: 0.4,
+              ease: [0.4, 0, 0.2, 1]
             }}
           />
-          <span className="relative z-10">Jae</span>
+          <div className="text-4xl font-bold relative z-10">
+            <span className={`inline-block ${isNameHovered ? 'text-black' : 'text-white'}`}>
+              Jae
+            </span>
+          </div>
+          <div className="text-4xl font-bold relative z-10">
+            <span className={`inline-block ${isNameHovered ? 'text-black' : 'text-white'}`}>
+              Birdsall
+            </span>
+          </div>
         </div>
-        <div className="text-4xl font-bold relative overflow-hidden">
-          <span className="block text-white/20 absolute inset-0">Birdsall</span>
-          <motion.span 
-            className="block text-transparent bg-clip-text bg-white relative z-10"
-            style={{
-              WebkitTextStroke: '1px white',
-              WebkitTextFillColor: 'transparent',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              background: 'white',
-              zIndex: 20,
-              height: isNameHovered ? '100%' : 0,
-            }}
-            initial={{ height: 0 }}
-            animate={{ 
-              height: isNameHovered ? '100%' : 0,
-              transition: { 
-                duration: 0.3,
-                ease: "easeInOut"
-              }
-            }}
-          />
-          <span className="relative z-10">Birdsall</span>
-        </div>
-        <p className="text-sm text-white/60 mt-1">Web Developer</p>
+        <p className="text-sm text-white/60 mt-1">
+          Web Developer
+        </p>
       </Link>
 
       {/* Navigation Section */}
@@ -88,6 +85,7 @@ export function Header() {
             className="block relative group"
             onMouseEnter={() => setHoveredItem(item.id)}
             onMouseLeave={() => setHoveredItem(null)}
+            onClick={(e) => handleClick(e, item.href)}
           >
             <motion.div 
               className="flex items-center space-x-2"

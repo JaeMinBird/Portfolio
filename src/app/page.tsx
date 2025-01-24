@@ -59,19 +59,19 @@ export default function Home() {
         </ParallaxText>
       </section>
 
-      <section id="about">
+      <section id="about" className="scroll-mt-20">
         <About />
       </section>
 
-      <section id="experience" className="relative z-10">
+      <section id="experience" className="relative z-10 scroll-mt-20">
         <ExperienceTerminal />
       </section>
 
-      <section id="projects" className="mt-[25vh]">
+      <section id="projects" className="mt-[25vh] scroll-mt-20">
         <ProjectsTerminal />
       </section>
       
-      <section id="contact" className="mt-[25vh] relative z-10">
+      <section id="contact" className="mt-[25vh] relative z-10 scroll-mt-20">
         <ContactTerminal />
       </section>
       
