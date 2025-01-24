@@ -11,6 +11,7 @@ import { Cursor } from '@/components/Cursor';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +25,17 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia('(pointer: coarse)').matches);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const headerStyle = {
     opacity: Math.max(0, 1 - scrollY / 500),
     transform: `translate(-50%, calc(-50% - ${scrollY * 0.2}px))`,
@@ -31,7 +43,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black text-white px-4 sm:p-8 relative">
-      <Cursor />
+      {!isMobile && <Cursor />}
       <Header />
       <ParallaxGrid scrollY={scrollY} />
       <section id="hero" className="parallax-header text-backdrop" style={headerStyle}>

@@ -23,7 +23,7 @@ export function ExperienceTerminal() {
   const numBars = Math.ceil(experiences[currentIndex].title.length * 0.95);
 
   return (
-    <div className="flex justify-center items-center mt-8 mb-16">
+    <div className="flex justify-center items-center mt-8 mb-16 relative z-40">
       <div className="relative w-full max-w-2xl border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)]">
         {/* Window Title Bar */}
         <div className="flex justify-between items-center px-4 py-2 bg-white/10 border-b-2 border-white/20">
@@ -43,14 +43,16 @@ export function ExperienceTerminal() {
         </div>
 
         {/* Tabs */}
-        <div className="flex flex-wrap bg-black/40 border-b-2 border-white/20">
+        <div className="flex flex-wrap bg-black/40 border-b-2 border-white/20 relative z-30">
           {experiences.map((_, index) => (
             <button
               key={index}
               onClick={() => handleTabClick(index)}
-              className={`px-3 py-1.5 font-mono text-xs transition-colors relative
-                        hover:text-shadow-strong flex-1 neon-hover-subtle
-                        ${index !== experiences.length - 1 ? 'border-r-2 border-white/20' : ''}`}
+              className={`px-3 py-2 sm:py-1.5 font-mono text-sm sm:text-xs transition-colors relative
+                        hover:text-shadow-strong flex-[1_1_50%] sm:flex-1 neon-hover-subtle
+                        ${index !== experiences.length - 1 ? 'border-r-2 border-white/20' : ''}
+                        ${index % 2 === 0 ? 'sm:border-r-2 border-white/20' : ''}
+                        border-b-2 border-white/20 sm:border-b-0`}
             >
               <span className={`relative z-10 ${currentIndex === index ? 'text-white' : 'text-white/70'}`}>
                 exp_{getFormattedIndex(index)}
@@ -63,7 +65,7 @@ export function ExperienceTerminal() {
         </div>
 
         {/* Content Area */}
-        <div className="p-6 font-mono bg-black/80 backdrop-blur-sm">
+        <div className="p-6 font-mono bg-black/80 backdrop-blur-sm relative z-20">
           <AnimatePresence mode="wait">
             <motion.div
               ref={ref}

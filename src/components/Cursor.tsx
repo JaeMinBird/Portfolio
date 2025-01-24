@@ -10,6 +10,7 @@ export const Cursor = ({ smoothing = 0.3 }: CursorProps) => {
   const [isHoveringInteractable, setIsHoveringInteractable] = useState(false);
   const circlePositionRef = useRef({ x: -100, y: -100 });
   const rafIdRef = useRef<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const updateCirclePosition = useCallback(() => {
     const current = circlePositionRef.current;
@@ -76,6 +77,20 @@ export const Cursor = ({ smoothing = 0.3 }: CursorProps) => {
       }
     };
   }, [updateCirclePosition]);
+
+  useEffect(() => {
+    // Check if device is touch capable
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia('(pointer: coarse)').matches);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  if (isMobile) return null;
 
   return (
     <div 

@@ -7,11 +7,14 @@ import { ProgressCircle } from "./ProgressCircle";
 
 export function ProjectsTerminal() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [maxHeight, setMaxHeight] = useState(375); // Default height
+  const [maxHeight, setMaxHeight] = useState(375);
+  const [mobileMaxHeight, setMobileMaxHeight] = useState(0);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 1024
   );
   const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const isMobile = windowWidth < 768; // Moved before the useEffect that uses it
 
   useEffect(() => {
     const handleResize = () => {
@@ -23,14 +26,22 @@ export function ProjectsTerminal() {
   }, []);
 
   useEffect(() => {
-    // Find the maximum height among all project detail divs
     const heights = projectRefs.current
       .filter(ref => ref !== null)
       .map(ref => ref.scrollHeight);
     
     const newMaxHeight = Math.max(...heights, 375) + 80;
     setMaxHeight(newMaxHeight);
-  }, []);
+    
+    // Calculate mobile max height
+    if (isMobile) {
+      const mobileHeights = projectRefs.current
+        .filter(ref => ref !== null)
+        .map(ref => ref.scrollHeight + 200); // Add extra space for tabs
+      const newMobileMaxHeight = Math.max(...mobileHeights);
+      setMobileMaxHeight(newMobileMaxHeight);
+    }
+  }, [isMobile]); // Now isMobile is defined before this useEffect
 
   const handleTabClick = useCallback((index: number) => {
     if (index === currentIndex) return;
@@ -49,10 +60,13 @@ export function ProjectsTerminal() {
   };
 
   return (
-    <div className="flex justify-center items-center mt-8 mb-16">
+    <div className="flex justify-center items-center mt-[25vh] mb-16 relative z-30">
       <div 
         className="relative w-full max-w-2xl border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)] flex flex-col"
-        style={{ height: `${maxHeight}px` }}
+        style={{ 
+          height: isMobile ? `${mobileMaxHeight}px` : `${maxHeight}px`,
+          minHeight: isMobile ? `${mobileMaxHeight}px` : 'auto'
+        }}
       >
         {/* Window Title Bar */}
         <div className="relative z-20 flex justify-between items-center px-4 py-2 bg-white/10 border-b-2 border-white/20">
@@ -72,34 +86,36 @@ export function ProjectsTerminal() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex relative flex-1 overflow-hidden">
+        <div className={`flex relative flex-1 overflow-hidden ${isMobile ? 'flex-col' : ''}`}>
           {/* Project Tabs Column */}
-          <div className="w-1/3 bg-black/40 border-r-2 border-white/20 relative">
-            <div className="relative">
+          <div className={`${isMobile ? 'w-full' : 'w-1/3'} bg-black/40 ${isMobile ? '' : 'border-r-2'} border-white/20 relative`}>
+            <div className={`relative ${isMobile ? 'flex flex-wrap' : ''}`}>
               <AnimatePresence>
-                <motion.div 
-                  layoutId="tab-highlight"
-                  className="absolute bg-white/15 w-full"
-                  initial={false}
-                  animate={{
-                    top: `${currentIndex * 25}%`,
-                    transition: { 
-                      duration: 0.3, 
-                      ease: "easeInOut" 
-                    }
-                  }}
-                  style={{
-                    height: `${98 / projects.length}%`
-                  }}
-                />
+                {!isMobile && ( // Only show motion div on desktop
+                  <motion.div 
+                    layoutId="tab-highlight"
+                    className="absolute bg-white/15 w-full"
+                    initial={false}
+                    animate={{
+                      top: `${currentIndex * 25}%`,
+                      transition: { 
+                        duration: 0.3, 
+                        ease: "easeInOut" 
+                      }
+                    }}
+                    style={{
+                      height: `${98 / projects.length}%`
+                    }}
+                  />
+                )}
               </AnimatePresence>
               {projects.map((project, index) => (
                 <button
                   key={index}
                   onClick={() => handleTabClick(index)}
-                  className={`w-full px-3 py-2 text-left flex items-center justify-between 
+                  className={`${isMobile ? 'w-1/2' : 'w-full'} px-3 py-2 text-left flex items-center justify-between 
                     transition-colors relative
-                    border-b-2 border-white/20 overflow-hidden`}
+                    ${isMobile ? 'border-2' : 'border-b-2'} border-white/20 overflow-hidden`}
                 >
                   <span 
                     className={`font-mono text-xs transition-colors truncate pr-2 relative z-10
@@ -122,17 +138,19 @@ export function ProjectsTerminal() {
               ))}
             </div>
 
-            {/* Progress Circle */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-              <ProgressCircle 
-                projects={projects} 
-                currentIndex={currentIndex} 
-              />
-            </div>
+            {/* Progress Circle - Only show on desktop */}
+            {!isMobile && (
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
+                <ProgressCircle 
+                  projects={projects} 
+                  currentIndex={currentIndex} 
+                />
+              </div>
+            )}
           </div>
 
           {/* Project Details */}
-          <div className="w-2/3 p-6 font-mono bg-black/80 backdrop-blur-sm relative">
+          <div className={`${isMobile ? 'w-full' : 'w-2/3'} p-6 font-mono bg-black/80 backdrop-blur-sm relative`}>
             <AnimatePresence mode="wait">
               <motion.div
                 ref={(el) => {
