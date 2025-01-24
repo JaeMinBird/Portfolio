@@ -34,13 +34,6 @@ body {
   background-size: 100% 4px;
 }
 
-.text-backdrop {
-  opacity: 0.9;
-  filter: blur(0.7px);
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
-}
-
 @keyframes float {
   0%, 100% {
     transform: translate(0, 0);
@@ -160,24 +153,10 @@ html {
 .neon-hover-subtle:hover {
   animation: neon-subtle 3s infinite;
 }
-
-.neon-glow {
-  filter: 
-    drop-shadow(0 0 3px rgba(255,255,255,0.5)) 
-    drop-shadow(0 0 6px rgba(255,255,255,0.3)) 
-    drop-shadow(0 0 9px rgba(255,255,255,0.2));
+section#experience {
+  isolation: isolate;
 }
 
-.neon-progress-segment {
-  transition: all 0.5s ease-in-out;
-  filter: 
-    brightness(1) 
-    drop-shadow(0 0 3px rgba(255,255,255,0.5)) 
-    drop-shadow(0 0 6px rgba(255,255,255,0.3));
-}
-
-.neon-progress-line {
-  filter: 
-    drop-shadow(0 0 2px rgba(255,255,255,0.5)) 
-    drop-shadow(0 0 4px rgba(255,255,255,0.3));
+section#projects {
+  isolation: isolate;
 }
