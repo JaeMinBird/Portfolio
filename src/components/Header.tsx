@@ -14,28 +14,28 @@ const NAV_ITEMS = [
 export function Header() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [isNameHovered, setIsNameHovered] = useState(false);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const handleClick = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
     const target = document.querySelector(href);
     if (target) {
-      const scrollToTarget = () => {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      };
-
-      scrollToTarget();
+      // Calculate the target position with some offset
+      const targetPosition = target.getBoundingClientRect().top + window.scrollY - 100;
       
-      // If it's the initial load, set a timeout to scroll again
-      if (isInitialLoad) {
-        setTimeout(() => {
-          scrollToTarget();
-          setIsInitialLoad(false);
-        }, 1000); // Adjust timeout based on your parallax animation duration
-      }
+      // Smooth scroll to the target position
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+
+      // Force the section to be in view immediately
+      setTimeout(() => {
+        const section = document.querySelector(href);
+        if (section) {
+          // Trigger the animation
+          section.dispatchEvent(new Event('inview'));
+        }
+      }, 100);
     }
   };
 
