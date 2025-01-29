@@ -79,7 +79,7 @@ export default function Home() {
         <ExperienceTerminal />
       </section>
 
-      <section id="projects" className="mt-[25vh] scroll-mt-20">
+      <section id="projects" className="mt-[25vh] relative z-10 scroll-mt-20">
         <ProjectsTerminal />
       </section>
       
