@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 const NAV_ITEMS = [
@@ -88,10 +89,13 @@ export function Header() {
               rel="noopener noreferrer" 
               className="social-icon-glow p-1"
             >
-              <img 
-                src="/linkedin-pixel.svg" 
-                alt="LinkedIn" 
-                className="w-6 h-6 pixelated" 
+              <Image
+                src="/linkedin-pixel.svg"
+                alt="LinkedIn"
+                width={24}
+                height={24}
+                className="w-6 h-6 pixelated"
+                unoptimized
               />
             </a>
             <a 
@@ -100,10 +104,13 @@ export function Header() {
               rel="noopener noreferrer" 
               className="social-icon-glow p-1"
             >
-              <img 
-                src="/github-pixel.svg" 
-                alt="GitHub" 
-                className="w-6 h-6 pixelated" 
+              <Image
+                src="/github-pixel.svg"
+                alt="GitHub"
+                width={24}
+                height={24}
+                className="w-6 h-6 pixelated"
+                unoptimized
               />
             </a>
           </div>
