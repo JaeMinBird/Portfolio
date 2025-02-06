@@ -160,3 +160,13 @@ section#experience {
 section#projects {
   isolation: isolate;
 }
+
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.invert {
+  filter: invert(1);
+}

@@ -74,6 +74,14 @@ export function Header() {
         <p className="text-sm text-white/60 mt-1">
           Web Developer
         </p>
+        <div className="flex space-x-2 mt-2">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+            <img src="/linkedin-pixel.svg" alt="LinkedIn" className="w-6 h-6 pixelated" />
+          </a>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+            <img src="/github-pixel.svg" alt="GitHub" className="w-6 h-6 pixelated invert" />
+          </a>
+        </div>
       </Link>
 
       {/* Navigation Section */}
