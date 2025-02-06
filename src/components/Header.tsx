@@ -42,13 +42,13 @@ export function Header() {
   return (
     <header className="fixed left-0 top-0 w-full hidden md:flex items-center justify-between p-4 z-50 font-mono">
       {/* Name and Developer Title Section */}
-      <Link 
-        href="/" 
-        className="group flex flex-col relative"
-        onMouseEnter={() => setIsNameHovered(true)}
-        onMouseLeave={() => setIsNameHovered(false)}
-      >
-        <div className="relative overflow-hidden">
+      <div className="flex flex-col">
+        <Link 
+          href="/" 
+          className="relative"
+          onMouseEnter={() => setIsNameHovered(true)}
+          onMouseLeave={() => setIsNameHovered(false)}
+        >
           <motion.div
             className="absolute left-0 top-0 h-full w-full bg-white z-0"
             initial={{ scaleX: 0, originX: 0 }}
@@ -70,19 +70,27 @@ export function Header() {
               Birdsall
             </span>
           </div>
+        </Link>
+
+        {/* Separate div for web developer title */}
+        <div className="mt-1">
+          <p className="text-sm text-white/60">
+            Web Developer
+          </p>
         </div>
-        <p className="text-sm text-white/60 mt-1">
-          Web Developer
-        </p>
-        <div className="flex space-x-2 mt-2">
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-            <img src="/linkedin-pixel.svg" alt="LinkedIn" className="w-6 h-6 pixelated" />
-          </a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-            <img src="/github-pixel.svg" alt="GitHub" className="w-6 h-6 pixelated invert" />
-          </a>
+
+        {/* Social icons positioned under the title */}
+        <div className="mt-2">
+          <div className="flex space-x-2">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+              <img src="/linkedin-pixel.svg" alt="LinkedIn" className="w-6 h-6 pixelated" />
+            </a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+              <img src="/github-pixel.svg" alt="GitHub" className="w-6 h-6 pixelated invert" />
+            </a>
+          </div>
         </div>
-      </Link>
+      </div>
 
       {/* Navigation Section */}
       <nav className="flex flex-col space-y-4 absolute top-4 right-5">
