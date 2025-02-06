@@ -82,11 +82,29 @@ export function Header() {
         {/* Social icons positioned under the title */}
         <div className="mt-2">
           <div className="flex space-x-2">
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-              <img src="/linkedin-pixel.svg" alt="LinkedIn" className="w-6 h-6 pixelated" />
+            <a 
+              href="https://linkedin.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="social-icon-glow p-1"
+            >
+              <img 
+                src="/linkedin-pixel.svg" 
+                alt="LinkedIn" 
+                className="w-6 h-6 pixelated" 
+              />
             </a>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-              <img src="/github-pixel.svg" alt="GitHub" className="w-6 h-6 pixelated invert" />
+            <a 
+              href="https://github.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="social-icon-glow p-1"
+            >
+              <img 
+                src="/github-pixel.svg" 
+                alt="GitHub" 
+                className="w-6 h-6 pixelated" 
+              />
             </a>
           </div>
         </div>
