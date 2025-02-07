@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -15,6 +15,20 @@ const NAV_ITEMS = [
 export function Header() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [isNameHovered, setIsNameHovered] = useState(false);
+  const [isMinimal, setIsMinimal] = useState(false);
+
+  // Add resize listener to check window width
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMinimal(window.innerWidth < 1000);
+    };
+    
+    // Initial check
+    handleResize();
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleClick = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
@@ -39,6 +53,46 @@ export function Header() {
       }, 100);
     }
   };
+
+  if (isMinimal) {
+    return (
+      <header className="fixed left-0 top-0 w-full flex justify-center p-4 z-50 font-mono bg-black">
+        <div className="flex space-x-2">
+          <a 
+            href="https://linkedin.com" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="social-icon-glow p-1"
+          >
+            <Image
+              src="/linkedin-pixel.svg"
+              alt="LinkedIn"
+              width={24}
+              height={24}
+              className="w-6 h-6 pixelated"
+              unoptimized
+            />
+          </a>
+          <a 
+            href="https://github.com" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="social-icon-glow p-1"
+          >
+            <Image
+              src="/github-pixel.svg"
+              alt="GitHub"
+              width={24}
+              height={24}
+              className="w-6 h-6 pixelated"
+              unoptimized
+            />
+          </a>
+        </div>
+        <div className="absolute bottom-0 left-0 w-full h-px bg-white/20 shadow-glow" />
+      </header>
+    );
+  }
 
   return (
     <header className="fixed left-0 top-0 w-full hidden md:flex items-center justify-between p-4 z-50 font-mono">
