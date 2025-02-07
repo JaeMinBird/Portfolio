@@ -4,6 +4,7 @@ export interface Project {
   dateRange: string;
   description: string[];
   techStack: string[];
+  githubUrl: string; // Added GitHub URL field
 }
 
 export const projects = [
@@ -12,11 +13,12 @@ export const projects = [
     pixelIcon: "M64 96h14v14H64zM128 64h14v14h-14zM80 48h14v14H80zM64 112h14v14H64zM64 80h14v14H64zM64 128h14v14H64zM64 144h14v14H64zM80 160h14v14H80zM176 80h14v14h-14zM208 112h14v14h-14zM208 96h14v14h-14zM208 128h14v14h-14zM208 144h14v14h-14zM176 160h14v14h-14zM160 80h14v14h-14zM208 80h14v14h-14zM64 64h14v14H64zM96 48h14v14H96zM192 80h14v14h-14zM208 160h14v14h-14zM192 160h14v14h-14zM112 48h14v14h-14zM144 80h14v14h-14zM160 160h14v14h-14zM64 160h14v14H64zM96 160h14v14H96zM112 160h14v14h-14zM128 160h14v14h-14zM144 160h14v14h-14zM32 128h14v14H32zM32 144h14v14H32zM32 96h14v14H32zM32 112h14v14H32zM32 160h14v14H32zM32 176h14v14H32zM48 192h14v14H48zM128 192h14v14h-14zM32 192h14v14H32zM64 192h14v14H64zM80 192h14v14H80zM96 192h14v14H96zM112 192h14v14h-14zM160 192h14v14h-14zM144 192h14v14h-14z",
     dateRange: "May 2024 - August 2024",
     description: [
-      "Developed block-level storage system in C using a JBOD for efficient read/write operations",
+      "Developed block-level storage system in C using a JBOD architecture",
       "Implemented an LFU caching algorithm to optimize data retrieval and reduce disk access",
       "Integrated TCP networking for remote storage operations over IP networks"
     ],
-    techStack: ["C", "Linux", "TCP/IP", "JBOD"]
+    techStack: ["C", "TCP/IP", "JBOD"],
+    githubUrl: "https://github.com/JaeMinBird/VirtualDiskSystem" // Add your actual GitHub URL here
   },
   {
     name: "Organization Website | PSUASA.com",
@@ -25,9 +27,10 @@ export const projects = [
     description: [
       "Built parallax website with React, Bootstrap, HTML, CSS, Javascript, and jQuery",
       "Created sign-up form with Node.js and Express.js",
-      "Stored form data in MongoDB database synced with Google Cloud API for data analytics",
-      "Deployed site with Nginx onto a virtual Ubuntu Server hosted on DigitalOcean"
+      "Stored form data in MongoDB database synced with Google Cloud API",
+      "Deployed with Nginx on a virtual Ubuntu Server"
     ],
-    techStack: ["React", "Node.js", "MongoDB", "Nginx", "DigitalOcean"]
+    techStack: ["React", "Node.js", "MongoDB", "Nginx", "DigitalOcean"],
+    githubUrl: "https://github.com/JaeMinBird/PSUASASite" // Add your actual GitHub URL here
   }
 ];
