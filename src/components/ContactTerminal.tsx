@@ -14,6 +14,8 @@ export function ContactTerminal() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [isSubmitReady, setIsSubmitReady] = useState(false);
   const [isInputActive, setIsInputActive] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [countdown, setCountdown] = useState(5);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const questions = [
@@ -33,20 +35,31 @@ export function ContactTerminal() {
     if (!isSubmitReady) return;
 
     try {
-      const response = await fetch('/api/contact', {
+      const data = new FormData();
+      data.append('entry.453306597', formData.firstName || '');
+      data.append('entry.1330950421', formData.lastName || '');
+      data.append('entry.680646568', formData.email || '');
+      data.append('entry.1710140407', formData.message || '');
+
+      await fetch('https://docs.google.com/forms/d/e/1FAIpQLSc5dpjpJGNOqpUACx2rO97yAuoFkD1S9YWvgYXiSyYFjizgdQ/formResponse', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        body: data,
+        mode: 'no-cors'
       });
 
-      if (response.ok) {
-        alert('Message sent successfully!');
-        resetForm();
-      } else {
-        alert('Failed to send message');
-      }
+      setIsSubmitted(true);
+      
+      // Start countdown
+      const interval = setInterval(() => {
+        setCountdown(prev => {
+          if (prev === 1) {
+            clearInterval(interval);
+            resetForm();
+            return 5;
+          }
+          return prev - 1;
+        });
+      }, 1000);
     } catch (error) {
       console.error('Submission error:', error);
       alert('An error occurred while sending the message');
@@ -58,6 +71,7 @@ export function ContactTerminal() {
     setCurrentQuestion(0);
     setIsSubmitReady(false);
     setIsInputActive(false);
+    setIsSubmitted(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -121,73 +135,88 @@ export function ContactTerminal() {
 
         {/* Content Area */}
         <div className="p-6 font-mono bg-black/80 backdrop-blur-sm">
-          <div className="text-white space-y-4">
-            {questions.map((q, index) => (
-              <div key={q.key} className="mb-2">
-                <div className="text-white font-bold">{`> ${q.prompt}`}</div>
-                {index <= currentQuestion && (
-                  <div className="flex items-center">
-                    <input
-                      ref={index === currentQuestion ? inputRef : null}
-                      id={`contact-${q.key}`}
-                      name={q.key}
-                      type={q.key === 'email' ? 'email' : 'text'}
-                      value={formData[q.key as keyof ContactFormData] || ''}
-                      onChange={(e) => {
-                        setFormData(prev => ({
-                          ...prev,
-                          [q.key]: e.target.value
-                        }));
-                      }}
-                      onClick={() => handleInputClick(index)}
-                      className={`
-                        w-full outline-none transition-all duration-300 ease-in-out cursor-text
-                        ${index === currentQuestion 
-                          ? 'bg-white text-black' 
-                          : formData[q.key as keyof ContactFormData] 
-                            ? 'bg-transparent text-white' 
-                            : 'bg-transparent text-white'}
-                        ${(index === questions.length - 1 && isSubmitReady)
-                          ? 'bg-transparent text-white caret-transparent' 
-                          : 'caret-black'}
-                      `}
-                      onKeyDown={handleKeyDown}
-                      disabled={index !== currentQuestion || (index === questions.length - 1 && isSubmitReady)}
-                      autoComplete={
-                        q.key === 'firstName' ? 'given-name' :
-                        q.key === 'lastName' ? 'family-name' :
-                        q.key === 'email' ? 'email' :
-                        q.key === 'message' ? 'off' : 
-                        'on'
-                      }
-                    />
-                  </div>
-                )}
+          {isSubmitted ? (
+            <div className="text-white space-y-4 animate-fade-in">
+              <div className="text-white font-bold">{'>'} Message sent successfully!</div>
+              <div className="text-white/70">{'>'} Thank you for reaching out. We&apos;ll get back to you soon.</div>
+              <div className="text-white/50 text-sm mt-4">
+                (This window will reset in <span className="text-white/70">{countdown}</span> seconds...)
               </div>
-            ))}
-
-            {/* Action Buttons */}
-            <div className="flex flex-wrap gap-2 justify-center mt-4 relative z-20">
-              <button 
-                onClick={handleSubmit}
-                disabled={!isSubmitReady}
-                className={`
-                  px-2 py-1 border text-sm transition-colors relative z-10
-                  ${isSubmitReady 
-                    ? 'border-white/40 neon-hover hover:border-white/80' 
-                    : 'border-white/20 text-white/50 cursor-not-allowed'}
-                `}
-              >
-                Send
-              </button>
-              <button 
-                onClick={resetForm}
-                className="px-2 py-1 border border-white/40 text-sm neon-hover hover:border-white/80 transition-colors relative z-10"
-              >
-                Restart
-              </button>
             </div>
-          </div>
+          ) : (
+            <div className="text-white space-y-4">
+              {questions.map((q, index) => (
+                <div key={q.key} className="mb-2">
+                  <div className="text-white font-bold">{`> ${q.prompt}`}</div>
+                  {index <= currentQuestion && (
+                    <div className="flex items-center">
+                      {index < currentQuestion && (
+                        <span className="text-white mr-2">{`> ${formData[q.key as keyof ContactFormData]}`}</span>
+                      )}
+                      {index === currentQuestion && (
+                        <input
+                          ref={inputRef}
+                          id={`contact-${q.key}`}
+                          name={q.key}
+                          type={q.key === 'email' ? 'email' : 'text'}
+                          value={formData[q.key as keyof ContactFormData] || ''}
+                          onChange={(e) => {
+                            setFormData(prev => ({
+                              ...prev,
+                              [q.key]: e.target.value
+                            }));
+                          }}
+                          onClick={() => handleInputClick(index)}
+                          className={`
+                            w-full outline-none transition-all duration-300 ease-in-out cursor-text
+                            ${index === currentQuestion 
+                              ? 'bg-white text-black' 
+                              : formData[q.key as keyof ContactFormData] 
+                                ? 'bg-transparent text-white' 
+                                : 'bg-transparent text-white'}
+                            ${(index === questions.length - 1 && isSubmitReady)
+                              ? 'bg-transparent text-white caret-transparent' 
+                              : 'caret-black'}
+                          `}
+                          onKeyDown={handleKeyDown}
+                          disabled={index !== currentQuestion || (index === questions.length - 1 && isSubmitReady)}
+                          autoComplete={
+                            q.key === 'firstName' ? 'given-name' :
+                            q.key === 'lastName' ? 'family-name' :
+                            q.key === 'email' ? 'email' :
+                            q.key === 'message' ? 'off' : 
+                            'on'
+                          }
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-2 justify-center mt-4 relative z-20">
+                <button 
+                  onClick={handleSubmit}
+                  disabled={!isSubmitReady}
+                  className={`
+                    px-2 py-1 border text-sm transition-colors relative z-10
+                    ${isSubmitReady 
+                      ? 'border-white/40 neon-hover hover:border-white/80' 
+                      : 'border-white/20 text-white/50 cursor-not-allowed'}
+                  `}
+                >
+                  Send
+                </button>
+                <button 
+                  onClick={resetForm}
+                  className="px-2 py-1 border border-white/40 text-sm neon-hover hover:border-white/80 transition-colors relative z-10"
+                >
+                  Restart
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
