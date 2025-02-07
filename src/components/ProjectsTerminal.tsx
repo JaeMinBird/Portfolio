@@ -171,9 +171,52 @@ export function ProjectsTerminal() {
                   transition={{ delay: 0.2 }}
                   className="flex justify-between items-start relative z-20"
                 >
-                  <h2 className="text-xl font-bold relative z-20">
-                    {projects[currentIndex].name}
-                  </h2>
+                  <div>
+                    <h2 className="text-xl font-bold relative z-20">
+                      {projects[currentIndex].name}
+                    </h2>
+                    {/* GitHub Link */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.25 }}
+                      className="relative z-20 mt-1"
+                    >
+                      <a
+                        href={projects[currentIndex].githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="neon-hover flex items-center gap-1 text-sm text-white/80 hover:text-white/90 transition-colors cursor-pointer"
+                      >
+                        GitHub
+                        <svg 
+                          width="16" 
+                          height="16" 
+                          viewBox="0 0 256 256" 
+                          fill="currentColor" 
+                          stroke="currentColor" 
+                          strokeWidth="0.25"
+                          className="raster-icon neon-hover"
+                        >
+                          <rect x="88" y="152" width="14" height="14" rx="1"></rect>
+                          <rect x="72" y="168" width="14" height="14" rx="1"></rect>
+                          <rect x="152" y="88" width="14" height="14" rx="1"></rect>
+                          <rect x="168" y="72" width="14" height="14" rx="1"></rect>
+                          <rect x="168" y="88" width="14" height="14" rx="1"></rect>
+                          <rect x="168" y="104" width="14" height="14" rx="1"></rect>
+                          <rect x="168" y="120" width="14" height="14" rx="1"></rect>
+                          <rect x="168" y="136" width="14" height="14" rx="1"></rect>
+                          <rect x="152" y="72" width="14" height="14" rx="1"></rect>
+                          <rect x="136" y="72" width="14" height="14" rx="1"></rect>
+                          <rect x="120" y="72" width="14" height="14" rx="1"></rect>
+                          <rect x="104" y="72" width="14" height="14" rx="1"></rect>
+                          <rect x="104" y="136" width="14" height="14" rx="1"></rect>
+                          <rect x="120" y="120" width="14" height="14" rx="1"></rect>
+                          <rect x="136" y="104" width="14" height="14" rx="1"></rect>
+                        </svg>
+                      </a>
+                    </motion.div>
+                  </div>
                   <svg 
                     viewBox="0 0 256 256"
                     className="w-12 h-12 relative z-20"
