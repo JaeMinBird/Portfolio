@@ -97,14 +97,14 @@ export function ProjectsTerminal() {
                     className="absolute bg-white/15 w-full"
                     initial={false}
                     animate={{
-                      top: `${currentIndex * 25}%`,
+                      top: `${currentIndex * 50}%`,
                       transition: { 
                         duration: 0.3, 
                         ease: "easeInOut" 
                       }
                     }}
                     style={{
-                      height: `${98 / projects.length}%`
+                      height: `${100 / projects.length}%`
                     }}
                   />
                 )}
@@ -124,7 +124,7 @@ export function ProjectsTerminal() {
                     {getFormattedProjectName(project.name)}
                   </span>
                   <svg 
-                    viewBox="0 0 16 16" 
+                    viewBox="0 0 256 256"
                     className="w-6 h-6 ml-2 flex-shrink-0 relative z-10"
                   >
                     <path 
@@ -175,7 +175,7 @@ export function ProjectsTerminal() {
                     {projects[currentIndex].name}
                   </h2>
                   <svg 
-                    viewBox="0 0 16 16" 
+                    viewBox="0 0 256 256"
                     className="w-12 h-12 relative z-20"
                   >
                     <path 

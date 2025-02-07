@@ -8,47 +8,26 @@ export interface Project {
 
 export const projects = [
   {
-    name: "Portfolio v2",
-    pixelIcon: "M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm0 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2zm0 2a4 4 0 1 0 0 8a4 4 0 0 0 0-8z",
-    dateRange: "June 2024 - Present",
+    name: "Virtual Disk System",
+    pixelIcon: "M64 96h14v14H64zM128 64h14v14h-14zM80 48h14v14H80zM64 112h14v14H64zM64 80h14v14H64zM64 128h14v14H64zM64 144h14v14H64zM80 160h14v14H80zM176 80h14v14h-14zM208 112h14v14h-14zM208 96h14v14h-14zM208 128h14v14h-14zM208 144h14v14h-14zM176 160h14v14h-14zM160 80h14v14h-14zM208 80h14v14h-14zM64 64h14v14H64zM96 48h14v14H96zM192 80h14v14h-14zM208 160h14v14h-14zM192 160h14v14h-14zM112 48h14v14h-14zM144 80h14v14h-14zM160 160h14v14h-14zM64 160h14v14H64zM96 160h14v14H96zM112 160h14v14h-14zM128 160h14v14h-14zM144 160h14v14h-14zM32 128h14v14H32zM32 144h14v14H32zM32 96h14v14H32zM32 112h14v14H32zM32 160h14v14H32zM32 176h14v14H32zM48 192h14v14H48zM128 192h14v14h-14zM32 192h14v14H32zM64 192h14v14H64zM80 192h14v14H80zM96 192h14v14H96zM112 192h14v14h-14zM160 192h14v14h-14zM144 192h14v14h-14z",
+    dateRange: "May 2024 - August 2024",
     description: [
-      "Modern, responsive portfolio website using Next.js and Tailwind CSS",
-      "Implemented interactive terminal-style project showcase",
-      "Utilized Framer Motion for smooth animations"
+      "Developed block-level storage system in C using a JBOD for efficient read/write operations",
+      "Implemented an LFU caching algorithm to optimize data retrieval and reduce disk access",
+      "Integrated TCP networking for remote storage operations over IP networks"
     ],
-    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"]
+    techStack: ["C", "Linux", "TCP/IP", "JBOD"]
   },
   {
-    name: "AI Code Assistant",
-    pixelIcon: "M7.5 1A2.5 2.5 0 0 0 5 3.5v1H3.5A2.5 2.5 0 0 0 1 7v5.5A2.5 2.5 0 0 0 3.5 15h9a2.5 2.5 0 0 0 2.5-2.5V7a2.5 2.5 0 0 0-2.5-2.5H11v-1A2.5 2.5 0 0 0 8.5 1h-1zM10 5V3.5a1.5 1.5 0 0 0-3 0V5h3zm-6 4.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-3z",
-    dateRange: "Apr. 2024 - May 2024",
+    name: "Organization Website | PSUASA.com",
+    pixelIcon: "M200 80h14v14h-14zM200 96h14v14h-14zM184 96h14v14h-14zM184 80h14v14h-14zM200 64h14v14h-14zM168 96h14v14h-14zM168 64h14v14h-14zM152 48h14v14h-14zM136 48h14v14h-14zM120 48h14v14h-14zM56 64h14v14H56zM72 64h14v14H72zM88 48h14v14H88zM104 48h14v14h-14zM56 80h14v14H56zM40 80h14v14H40zM40 96h14v14H40zM40 112h14v14H40zM72 144h14v14H72zM40 160h14v14H40zM104 192h14v14h-14zM88 192h14v14H88zM40 176h14v14H40zM56 160h14v14H56zM56 144h14v14H56zM40 144h14v14H40zM120 192h14v14h-14zM136 192h14v14h-14zM152 192h14v14h-14zM168 192h14v14h-14zM72 48h14v14H72zM72 176h14v14H72zM168 176h14v14h-14zM184 176h14v14h-14zM184 160h14v14h-14zM200 160h14v14h-14zM200 144h14v14h-14zM200 128h14v14h-14z",
+    dateRange: "August 2023 - May 2024",
     description: [
-      "Developed an intelligent code generation and assistance tool",
-      "Implemented context-aware code suggestions",
-      "Created robust error handling and language support"
+      "Built parallax website with React, Bootstrap, HTML, CSS, Javascript, and jQuery",
+      "Created sign-up form with Node.js and Express.js",
+      "Stored form data in MongoDB database synced with Google Cloud API for data analytics",
+      "Deployed site with Nginx onto a virtual Ubuntu Server hosted on DigitalOcean"
     ],
-    techStack: ["Python", "OpenAI", "Flask", "React"]
-  },
-  {
-    name: "Urban Transit Tracker",
-    pixelIcon: "M8 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8z",
-    dateRange: "Feb. 2024 - Mar. 2024",
-    description: [
-      "Real-time public transit tracking application",
-      "Integrated GPS and route optimization algorithms",
-      "Developed cross-platform mobile interface"
-    ],
-    techStack: ["React Native", "GraphQL", "Node.js", "MongoDB"]
-  },
-  {
-    name: "Cybersecurity Dashboard",
-    pixelIcon: "M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM3.5 5.5a2 2 0 1 1 4 0a2 2 0 0 1-4 0zm7 6a2 2 0 1 1 0-4a2 2 0 0 1 0 4z",
-    dateRange: "Dec. 2023 - Jan. 2024",
-    description: [
-      "Comprehensive network security monitoring platform",
-      "Implemented real-time threat detection",
-      "Created interactive visualization of network traffic"
-    ],
-    techStack: ["Vue.js", "Django", "Elasticsearch", "Docker"]
+    techStack: ["React", "Node.js", "MongoDB", "Nginx", "DigitalOcean"]
   }
 ];
