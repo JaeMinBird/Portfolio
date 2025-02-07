@@ -138,7 +138,7 @@ export function ContactTerminal() {
           {isSubmitted ? (
             <div className="text-white space-y-4 animate-fade-in">
               <div className="text-white font-bold">{'>'} Message sent successfully!</div>
-              <div className="text-white/70">{'>'} Thank you for reaching out. We&apos;ll get back to you soon.</div>
+              <div className="text-white/70">{'>'} Thank you for reaching out. I&apos;ll get back to you soon.</div>
               <div className="text-white/50 text-sm mt-4">
                 (This window will reset in <span className="text-white/70">{countdown}</span> seconds...)
               </div>

@@ -75,10 +75,10 @@ export default function Home() {
           BUILDING TOMORROW TODAY | 오늘 내일을 만듭니다 |
         </ParallaxText>
         <ParallaxText baseVelocity={1}>
-          한계를 넘어서다 | PUSH THE BOUNDARIES |
+          한계를 넘어섭니다 | PUSH THE BOUNDARIES |
         </ParallaxText>
         <ParallaxText baseVelocity={-1}>
-          BREAK THE LIMITS | 한계를 깨다 |
+          BREAK THE LIMITS | 한계를 깨뜨립니다 |
         </ParallaxText>
       </section>
 
@@ -99,6 +99,9 @@ export default function Home() {
       </section>
       
       <div className="vhs-overlay"></div>
+      <footer className="text-center py-4 text-sm text-gray-500 relative z-[999] font-mono">
+        © {new Date().getFullYear()} JaeMin Birdsall. All rights reserved.
+      </footer>
     </div>
   );
 }
