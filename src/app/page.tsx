@@ -8,12 +8,16 @@ import { ExperienceTerminal } from '@/components/ExperienceTerminal';
 import { ProjectsTerminal } from '@/components/ProjectsTerminal';
 import { ContactTerminal } from '@/components/ContactTerminal';
 import { Cursor } from '@/components/Cursor';
+import { StaggerText } from '@/components/StaggerText';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Set initial scroll position
+    setScrollY(window.scrollY);
+    
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
@@ -36,21 +40,28 @@ export default function Home() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const headerStyle = {
-    opacity: Math.max(0, 1 - scrollY / 500),
-    transform: `translate(-50%, calc(-50% - ${scrollY * 0.2}px))`,
-  };
-
   return (
     <div className="min-h-screen bg-black text-white px-4 sm:p-8 relative">
       {!isMobile && <Cursor />}
       <Header />
       <ParallaxGrid scrollY={scrollY} />
-      <section id="hero" className="parallax-header text-backdrop" style={headerStyle}>
-        <h1 className="floating-title font-['Black_Han_Sans'] flex flex-col sm:flex-row sm:gap-4">
-          <span>Jae</span>
-          <span>Birdsall</span>
-        </h1>
+      
+      <section 
+        id="hero" 
+        className="fixed top-1/2 left-1/2 w-full max-w-[90vw]"
+        style={{
+          transform: `translate(-50%, calc(-50% - ${scrollY * 0.3}px))`,
+          opacity: `${1 - scrollY * 0.002}`,
+          transition: 'transform 0.1s ease-out, opacity 0.1s ease-out'
+        }}
+      >
+        <div className="text-center">
+          <StaggerText 
+            line1="Hello"
+            line2=" 안녕 "
+            className="text-center floating-title w-full text-7xl sm:text-9xl font-bold"
+          />
+        </div>
       </section>
 
       <section id="parallax-text" className="mt-[80vh] flex flex-col gap-2">
