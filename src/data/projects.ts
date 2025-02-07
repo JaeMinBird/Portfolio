@@ -30,7 +30,7 @@ export const projects = [
       "Stored form data in MongoDB database synced with Google Cloud API",
       "Deployed with Nginx on a virtual Ubuntu Server"
     ],
-    techStack: ["React", "Node.js", "MongoDB", "Nginx", "DigitalOcean"],
+    techStack: ["React", "Node.js", "Express.js", "MongoDB", "Nginx", "Google Cloud API"],
     githubUrl: "https://github.com/JaeMinBird/PSUASASite" // Add your actual GitHub URL here
   }
 ];
