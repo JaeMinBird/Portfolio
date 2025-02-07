@@ -62,10 +62,11 @@ export function About() {
           </h2>
         </div>
         <p className="text-lg leading-relaxed text-white/80">
-          A creative developer passionate about building immersive digital experiences. 
-          Blending technical expertise with artistic vision to push the boundaries of web development.
+          I&apos;m a Junior studying computer science at Penn State University Park interested in full stack development and UI/UX design.
+          Outside of Computer Science, my hobbies include fashion design, Japanese cars, and architecture.
         </p>
       </motion.div>
     </div>
+
   );
 } 
