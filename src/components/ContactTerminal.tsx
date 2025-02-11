@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 
 interface ContactFormData {
   firstName: string;
@@ -18,12 +18,12 @@ export function ContactTerminal() {
   const [countdown, setCountdown] = useState(5);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const questions = [
+  const questions = useMemo(() => [
     { key: 'firstName', prompt: 'What\'s your First Name?' },
     { key: 'lastName', prompt: 'What\'s your Last Name?' },
     { key: 'email', prompt: 'What\'s your Email Address?' },
     { key: 'message', prompt: 'What message would you like to send?' }
-  ];
+  ], []);
 
   // Email validation regex
   const validateEmail = (email: string) => {
@@ -93,11 +93,6 @@ export function ContactTerminal() {
 
         setFormData(updatedFormData);
         setCurrentQuestion(prev => prev + 1);
-        
-        // Only set isSubmitReady if we've reached the end
-        if (currentQuestion === questions.length - 1) {
-          setIsSubmitReady(true);
-        }
       }
     }
   };
@@ -112,6 +107,12 @@ export function ContactTerminal() {
       inputRef.current.focus();
     }
   }, [isInputActive, currentQuestion]);
+
+  useEffect(() => {
+    // Enable submit button when all fields are filled
+    const allFieldsFilled = questions.every(q => formData[q.key as keyof ContactFormData]);
+    setIsSubmitReady(allFieldsFilled);
+  }, [formData, questions]);
 
   return (
     <div className="flex justify-center items-center mt-8 mb-16">
@@ -148,49 +149,39 @@ export function ContactTerminal() {
               {questions.map((q, index) => (
                 <div key={q.key} className="mb-2">
                   <div className="text-white font-bold">{`> ${q.prompt}`}</div>
-                  {index <= currentQuestion && (
-                    <div className="flex items-center">
-                      {index < currentQuestion && (
-                        <span className="text-white mr-2">{`> ${formData[q.key as keyof ContactFormData]}`}</span>
-                      )}
-                      {index === currentQuestion && (
-                        <input
-                          ref={inputRef}
-                          id={`contact-${q.key}`}
-                          name={q.key}
-                          type={q.key === 'email' ? 'email' : 'text'}
-                          value={formData[q.key as keyof ContactFormData] || ''}
-                          onChange={(e) => {
-                            setFormData(prev => ({
-                              ...prev,
-                              [q.key]: e.target.value
-                            }));
-                          }}
-                          onClick={() => handleInputClick(index)}
-                          className={`
-                            w-full outline-none transition-all duration-300 ease-in-out cursor-text
-                            ${index === currentQuestion 
-                              ? 'bg-white text-black' 
-                              : formData[q.key as keyof ContactFormData] 
-                                ? 'bg-transparent text-white' 
-                                : 'bg-transparent text-white'}
-                            ${(index === questions.length - 1 && isSubmitReady)
-                              ? 'bg-transparent text-white caret-transparent' 
-                              : 'caret-black'}
-                          `}
-                          onKeyDown={handleKeyDown}
-                          disabled={index !== currentQuestion || (index === questions.length - 1 && isSubmitReady)}
-                          autoComplete={
-                            q.key === 'firstName' ? 'given-name' :
-                            q.key === 'lastName' ? 'family-name' :
-                            q.key === 'email' ? 'email' :
-                            q.key === 'message' ? 'off' : 
-                            'on'
-                          }
-                        />
-                      )}
-                    </div>
-                  )}
+                  <div className="flex items-center">
+                    <input
+                      ref={index === currentQuestion ? inputRef : null}
+                      id={`contact-${q.key}`}
+                      name={q.key}
+                      type={q.key === 'email' ? 'email' : 'text'}
+                      value={formData[q.key as keyof ContactFormData] || ''}
+                      onChange={(e) => {
+                        setFormData(prev => ({
+                          ...prev,
+                          [q.key]: e.target.value
+                        }));
+                      }}
+                      onClick={() => handleInputClick(index)}
+                      className={`
+                        w-full outline-none transition-all duration-300 ease-in-out cursor-text
+                        ${index === currentQuestion 
+                          ? 'bg-white text-black' 
+                          : formData[q.key as keyof ContactFormData] 
+                            ? 'bg-transparent text-white caret-white' 
+                            : 'bg-white/10 text-white/50 caret-white/50'}
+                        px-2 py-1
+                      `}
+                      onKeyDown={handleKeyDown}
+                      autoComplete={
+                        q.key === 'firstName' ? 'given-name' :
+                        q.key === 'lastName' ? 'family-name' :
+                        q.key === 'email' ? 'email' :
+                        q.key === 'message' ? 'off' : 
+                        'on'
+                      }
+                    />
+                  </div>
                 </div>
               ))}
 
