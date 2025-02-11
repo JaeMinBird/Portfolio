@@ -41,7 +41,7 @@ export function About() {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <motion.div
-        className="absolute border-[2px] border-white shadow-glow"
+        className="absolute border-[2px] border-white shadow-glow backdrop-blur-sm bg-black/80"
         initial="offscreen"
         whileInView="onscreen"
         viewport={{ amount: 0.2, once: true }}
@@ -67,6 +67,5 @@ export function About() {
         </p>
       </motion.div>
     </div>
-
   );
 } 

@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { Header } from '@/components/Header';
 import { ParallaxText } from '@/components/ParallaxText';
 import { About } from '@/components/About';
@@ -8,24 +9,31 @@ import { ExperienceTerminal } from '@/components/ExperienceTerminal';
 import { ProjectsTerminal } from '@/components/ProjectsTerminal';
 import { ContactTerminal } from '@/components/ContactTerminal';
 import { Cursor } from '@/components/Cursor';
-import { StaggerText } from '@/components/StaggerText';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [windowHeight, setWindowHeight] = useState(0);
 
   useEffect(() => {
-    // Set initial scroll position
+    // Only run on client side
+    setWindowHeight(window.innerHeight);
     setScrollY(window.scrollY);
     
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
 
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -48,18 +56,17 @@ export default function Home() {
       
       <section 
         id="hero" 
-        className="fixed top-1/2 left-1/2 w-full max-w-[90vw]"
-        style={{
-          transform: `translate(-50%, calc(-50% - ${scrollY * 0.3}px))`,
-          opacity: `${1 - scrollY * 0.002}`,
-          transition: 'transform 0.1s ease-out, opacity 0.1s ease-out'
-        }}
+        className={`fixed top-0 left-0 w-full h-full flex items-center justify-center z-0 
+          ${scrollY > windowHeight * 0.3 ? 'opacity-50' : 'opacity-100'} 
+          transition-opacity duration-300`}
       >
-        <div className="text-center">
-          <StaggerText 
-            line1="Hello"
-            line2=" 안녕 "
-            className="text-center floating-title w-full text-7xl sm:text-9xl font-bold"
+        <div className="text-center w-full px-8">
+          <Image 
+            src="/logo.png" 
+            alt="Logo" 
+            width={isMobile ? 250 : 500} 
+            height={isMobile ? 150 : 300} 
+            className="mx-auto transition-all duration-300 invert hover:invert-0 contrast-125"
           />
         </div>
       </section>
@@ -82,8 +89,8 @@ export default function Home() {
         </ParallaxText>
       </section>
 
-      <section id="about" className="scroll-mt-20">
-        <About />
+      <section id="about" className="scroll-mt-20 relative">
+       <About />
       </section>
 
       <section id="experience" className="relative z-10 scroll-mt-20">
