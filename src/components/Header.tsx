@@ -59,7 +59,7 @@ export function Header() {
       <header className="fixed left-0 top-0 w-full flex justify-center p-4 z-50 font-mono bg-black">
         <div className="flex space-x-2">
           <a 
-            href="https://linkedin.com" 
+            href="https://www.linkedin.com/in/jaeminbirdsall" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="social-icon-glow p-1"
@@ -74,7 +74,7 @@ export function Header() {
             />
           </a>
           <a 
-            href="https://github.com" 
+            href="https://github.com/JaeMinBird" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="social-icon-glow p-1"
