@@ -62,7 +62,7 @@ export function ProjectsTerminal() {
   return (
     <div className="flex justify-center items-center mt-[25vh] mb-16 relative z-30">
       <div 
-        className="relative w-full max-w-2xl border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)] flex flex-col"
+        className="relative w-full max-w-2xl border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)] backdrop-blur-sm flex flex-col"
         style={{ 
           height: isMobile ? `${mobileMaxHeight}px` : `${maxHeight}px`,
           minHeight: isMobile ? `${mobileMaxHeight}px` : 'auto'
@@ -150,7 +150,7 @@ export function ProjectsTerminal() {
           </div>
 
           {/* Project Details */}
-          <div className={`${isMobile ? 'w-full' : 'w-2/3'} p-6 font-mono bg-black/80 backdrop-blur-sm relative`}>
+          <div className={`${isMobile ? 'w-full' : 'w-2/3'} p-6 font-mono bg-black/80 relative`}>
             <AnimatePresence mode="wait">
               <motion.div
                 ref={(el) => {

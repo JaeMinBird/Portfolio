@@ -24,7 +24,7 @@ export function ExperienceTerminal() {
 
   return (
     <div className="flex justify-center items-center mt-8 mb-16 relative z-40">
-      <div className="relative w-full max-w-2xl border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+      <div className="relative w-full max-w-2xl border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)] backdrop-blur-sm">
         {/* Window Title Bar */}
         <div className="flex justify-between items-center px-4 py-2 bg-white/10 border-b-2 border-white/20">
           <span className="font-mono text-white/90">experiences.exe</span>
@@ -65,7 +65,7 @@ export function ExperienceTerminal() {
         </div>
 
         {/* Content Area */}
-        <div className="p-6 font-mono bg-black/80 backdrop-blur-sm relative z-20">
+        <div className="p-6 font-mono bg-black/80 relative z-20">
           <AnimatePresence mode="wait">
             <motion.div
               ref={ref}
