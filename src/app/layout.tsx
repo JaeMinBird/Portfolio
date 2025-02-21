@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Jae's Portfolio",
-  description: "Retro style developer portfolio showcasing work experience and projects alongside a contact form.",
+  description: "JaeMin Birdsall's retro style developer portfolio showcasing work experience and projects alongside a contact form.",
   icons: {
     icon: '/staricon.ico',
     apple: '/staricon.png',
