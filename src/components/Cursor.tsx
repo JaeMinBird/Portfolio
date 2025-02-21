@@ -41,12 +41,23 @@ export const Cursor = ({ smoothing = 0.3 }: CursorProps) => {
     `;
     document.head.appendChild(styleElement);
 
-    // Select all interactable elements
-    const interactables = document.querySelectorAll('a, button, [role="button"], .interactable');
-    
-    interactables.forEach(el => {
-      el.addEventListener('mouseenter', handleInteractableEnter);
-      el.addEventListener('mouseleave', handleInteractableLeave);
+    // Function to setup event listeners
+    const setupInteractables = () => {
+      const interactables = document.querySelectorAll('a, button, [role="button"], .interactable');
+      interactables.forEach(el => {
+        el.addEventListener('mouseenter', handleInteractableEnter);
+        el.addEventListener('mouseleave', handleInteractableLeave);
+      });
+    };
+
+    // Initial setup
+    setupInteractables();
+
+    // Set up a MutationObserver to watch for new interactable elements
+    const observer = new MutationObserver(setupInteractables);
+    observer.observe(document.body, {
+      subtree: true,
+      childList: true,
     });
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -54,11 +65,7 @@ export const Cursor = ({ smoothing = 0.3 }: CursorProps) => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       document.head.removeChild(styleElement);
-      
-      interactables.forEach(el => {
-        el.removeEventListener('mouseenter', handleInteractableEnter);
-        el.removeEventListener('mouseleave', handleInteractableLeave);
-      });
+      observer.disconnect();
     };
   }, []);
 

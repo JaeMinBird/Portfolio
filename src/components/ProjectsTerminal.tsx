@@ -30,14 +30,14 @@ export function ProjectsTerminal() {
       .filter(ref => ref !== null)
       .map(ref => ref.scrollHeight);
     
-    const newMaxHeight = Math.max(...heights, 375) + 80;
+    const newMaxHeight = Math.max(...heights, 400) + 100;
     setMaxHeight(newMaxHeight);
     
-    // Calculate mobile max height
+    // Calculate mobile max height with 15% reduction
     if (isMobile) {
       const mobileHeights = projectRefs.current
         .filter(ref => ref !== null)
-        .map(ref => ref.scrollHeight + 200); // Add extra space for tabs
+        .map(ref => ref.scrollHeight + 200); // Changed from 240 to 200 (~15% reduction)
       const newMobileMaxHeight = Math.max(...mobileHeights);
       setMobileMaxHeight(newMobileMaxHeight);
     }
@@ -97,7 +97,7 @@ export function ProjectsTerminal() {
                     className="absolute bg-white/15 w-full"
                     initial={false}
                     animate={{
-                      top: `${currentIndex * 50}%`,
+                      top: `${(100 / projects.length) * currentIndex}%`,
                       transition: { 
                         duration: 0.3, 
                         ease: "easeInOut" 
@@ -186,7 +186,7 @@ export function ProjectsTerminal() {
                         href={projects[currentIndex].githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="neon-hover flex items-center gap-1 text-sm text-white/80 hover:text-white/90 transition-colors cursor-pointer"
+                        className="neon-hover flex items-center gap-1 text-sm text-white/80 hover:text-white/90 transition-colors cursor-pointer interactable"
                       >
                         GitHub
                         <svg 
