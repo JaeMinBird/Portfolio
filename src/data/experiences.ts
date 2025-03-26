@@ -24,9 +24,9 @@ export const experiences: Experience[] = [
     company: "Mindburn Solutions LLC",
     period: "July 2021 - August 2023",
     description: [
-      "Tracked and logged company inventory and finances in a SQL database",
-      "Aided onsite disaster recovery for 3 national companies",
-      "Designed and implemented networks for local and national businesses"
+      "Tracked and logged company inventory and finances in a MySQL database",
+      "Assisted post-breach disaster recovery, aiding system restoration and data integrity verification",
+      "Built secure local server network for warehouse and small business environments"
     ],
     techStack: ["SQL", "Database Management", "Network Design", "Disaster Recovery"]
   }
