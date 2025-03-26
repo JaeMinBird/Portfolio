@@ -19,7 +19,7 @@ export const projects = [
       "Synthesized design for xc7z010clg400-1 FPGA, optimizing resource use"
     ],
     techStack: ["Verilog", "Vivado", "FPGA", "MIPS Architecture"], // Skills Demonstrated
-    githubUrl: "https://github.com/JaeMinBird/MIPS-CPU-in-Verilog" // GitHub URL here
+    githubUrl: "https://github.com/JaeMinBird/MIPS-CPU" // GitHub URL here
   },
   {
     name: "Virtual Disk System",
