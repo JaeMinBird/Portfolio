@@ -7,14 +7,10 @@ import { ProgressCircle } from "./ProgressCircle";
 
 export function ProjectsTerminal() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [maxHeight, setMaxHeight] = useState(375);
-  const [mobileMaxHeight, setMobileMaxHeight] = useState(0);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 1024
   );
-  const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  const isMobile = windowWidth < 768; // Moved before the useEffect that uses it
+  const isMobile = windowWidth < 768;
 
   useEffect(() => {
     const handleResize = () => {
@@ -24,24 +20,6 @@ export function ProjectsTerminal() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  useEffect(() => {
-    const heights = projectRefs.current
-      .filter(ref => ref !== null)
-      .map(ref => ref.scrollHeight);
-    
-    const newMaxHeight = Math.max(...heights, 400) + 100;
-    setMaxHeight(newMaxHeight);
-    
-    // Calculate mobile max height with 15% reduction
-    if (isMobile) {
-      const mobileHeights = projectRefs.current
-        .filter(ref => ref !== null)
-        .map(ref => ref.scrollHeight + 200); // Changed from 240 to 200 (~15% reduction)
-      const newMobileMaxHeight = Math.max(...mobileHeights);
-      setMobileMaxHeight(newMobileMaxHeight);
-    }
-  }, [isMobile]); // Now isMobile is defined before this useEffect
 
   const handleTabClick = useCallback((index: number) => {
     if (index === currentIndex) return;
@@ -62,11 +40,7 @@ export function ProjectsTerminal() {
   return (
     <div className="flex justify-center items-center mt-[25vh] mb-16 relative z-30">
       <div 
-        className="relative w-full max-w-2xl border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)] backdrop-blur-sm flex flex-col"
-        style={{ 
-          height: isMobile ? `${mobileMaxHeight}px` : `${maxHeight}px`,
-          minHeight: isMobile ? `${mobileMaxHeight}px` : 'auto'
-        }}
+        className="relative w-full max-w-2xl border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)] backdrop-blur-sm flex flex-col h-[80vh]"
       >
         {/* Window Title Bar */}
         <div className="relative z-20 flex justify-between items-center px-4 py-2 bg-white/10 border-b-2 border-white/20">
@@ -88,7 +62,7 @@ export function ProjectsTerminal() {
         {/* Main Content Area */}
         <div className={`flex relative flex-1 overflow-hidden ${isMobile ? 'flex-col' : ''}`}>
           {/* Project Tabs Column */}
-          <div className={`${isMobile ? 'w-full' : 'w-1/3'} bg-black/40 ${isMobile ? '' : 'border-r-2'} border-white/20 relative`}>
+          <div className={`${isMobile ? 'w-full' : 'w-1/3'} bg-black/40 ${isMobile ? '' : 'border-r-2'} border-white/20 relative overflow-auto`}>
             <div className={`relative ${isMobile ? 'flex flex-wrap' : ''}`}>
               <AnimatePresence>
                 {!isMobile && ( // Only show motion div on desktop
@@ -150,14 +124,9 @@ export function ProjectsTerminal() {
           </div>
 
           {/* Project Details */}
-          <div className={`${isMobile ? 'w-full' : 'w-2/3'} p-6 font-mono bg-black/80 relative`}>
+          <div className={`${isMobile ? 'w-full' : 'w-2/3'} p-6 font-mono bg-black/80 relative overflow-auto`}>
             <AnimatePresence mode="wait">
               <motion.div
-                ref={(el) => {
-                  if (el) {
-                    projectRefs.current[currentIndex] = el;
-                  }
-                }}
                 key={currentIndex}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

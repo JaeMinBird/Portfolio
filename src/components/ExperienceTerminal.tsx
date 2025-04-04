@@ -65,7 +65,7 @@ export function ExperienceTerminal() {
         </div>
 
         {/* Content Area */}
-        <div className="p-6 font-mono bg-black/80 relative z-20">
+        <div className="p-6 font-mono bg-black/80 relative z-20 h-[60vh] overflow-auto">
           <AnimatePresence mode="wait">
             <motion.div
               ref={ref}

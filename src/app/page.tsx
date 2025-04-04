@@ -15,7 +15,7 @@ const Cursor = dynamic(() => import('@/components/Cursor').then(mod => ({ defaul
 
 // Loading placeholder component
 const TerminalLoading = () => (
-  <div className="w-full h-[400px] bg-black/50 backdrop-blur-sm border border-white/30 rounded-md flex items-center justify-center">
+  <div className="w-full h-[60vh] bg-black/50 backdrop-blur-sm border border-white/30 rounded-md flex items-center justify-center">
     <div className="animate-pulse text-white font-mono">Loading...</div>
   </div>
 );
