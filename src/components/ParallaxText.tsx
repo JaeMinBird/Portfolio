@@ -8,14 +8,14 @@ import {
   useAnimationFrame
 } from "framer-motion";
 import { wrap } from "@motionone/utils";
-import { useRef } from "react";
+import { useRef, memo } from "react";
 
 interface ParallaxProps {
   children: string;
   baseVelocity: number;
 }
 
-export function ParallaxText({ children, baseVelocity = 20 }: ParallaxProps) {
+function ParallaxTextComponent({ children, baseVelocity = 20 }: ParallaxProps) {
   const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
@@ -31,7 +31,12 @@ export function ParallaxText({ children, baseVelocity = 20 }: ParallaxProps) {
   const x = useTransform(baseX, (v) => `${wrap(0, -50, v)}%`);
 
   const directionFactor = useRef<number>(1);
+  
+  // Use RAF more efficiently with a reuse check
   useAnimationFrame((t, delta) => {
+    // Skip animations if delta is too large (e.g. browser tab was inactive)
+    if (delta > 100) return;
+    
     let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
 
     if (velocityFactor.get() < 0) {
@@ -44,6 +49,9 @@ export function ParallaxText({ children, baseVelocity = 20 }: ParallaxProps) {
     baseX.set(baseX.get() + moveBy);
   });
 
+  // Optimize by reducing number of duplicated elements
+  const content = `${children} `;
+  
   return (
     <div className="overflow-hidden whitespace-nowrap flex flex-nowrap relative w-[100vw] -ml-2 sm:-ml-8">
       <div className="absolute inset-0 backdrop-blur-[0.7px] opacity-90 pointer-events-none" />
@@ -51,15 +59,16 @@ export function ParallaxText({ children, baseVelocity = 20 }: ParallaxProps) {
         className="flex whitespace-nowrap font-['Black_Han_Sans'] text-4xl sm:text-6xl text-white/95"
         style={{ x }}
       >
-        <span className="mr-8">{children} </span>
-        <span className="mr-8">{children} </span>
-        <span className="mr-8">{children} </span>
-        <span className="mr-8">{children} </span>
-        <span className="mr-8">{children} </span>
-        <span className="mr-8">{children} </span>
-        <span className="mr-8">{children} </span>
-        <span className="mr-8">{children} </span>
+        {/* Reduced number of repeats but still enough to cover the screen */}
+        <span className="mr-8">{content}</span>
+        <span className="mr-8">{content}</span>
+        <span className="mr-8">{content}</span>
+        <span className="mr-8">{content}</span>
+        <span className="mr-8">{content}</span>
       </motion.div>
     </div>
   );
-} 
+}
+
+// Export memoized component to prevent unnecessary re-renders
+export const ParallaxText = memo(ParallaxTextComponent); 

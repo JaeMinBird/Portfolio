@@ -11,7 +11,9 @@ export const Cursor = ({ smoothing = 0.3 }: CursorProps) => {
   const circlePositionRef = useRef({ x: -100, y: -100 });
   const rafIdRef = useRef<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-
+  const isHoveringRef = useRef(false);
+  
+  // Memoize updateCirclePosition to prevent unnecessary re-creations
   const updateCirclePosition = useCallback(() => {
     const current = circlePositionRef.current;
     const target = mousePosition;
@@ -21,16 +23,38 @@ export const Cursor = ({ smoothing = 0.3 }: CursorProps) => {
     
     circlePositionRef.current = { x: newX, y: newY };
     
-    setMousePosition(prev => ({ ...prev }));
+    // Skip state update for minimal changes to prevent unnecessary re-renders
+    const hasSignificantChange = 
+      Math.abs(newX - current.x) > 0.3 || 
+      Math.abs(newY - current.y) > 0.3;
+    
+    if (hasSignificantChange) {
+      setMousePosition(prev => ({ ...prev }));
+    }
   }, [mousePosition, smoothing]);
 
   useEffect(() => {
+    // Throttle mousemove events for better performance
+    let lastTimestamp = 0;
+    const throttleInterval = 10; // ms
+    
     const handleMouseMove = (e: MouseEvent) => {
+      const now = performance.now();
+      if (now - lastTimestamp < throttleInterval) return;
+      
+      lastTimestamp = now;
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    const handleInteractableEnter = () => setIsHoveringInteractable(true);
-    const handleInteractableLeave = () => setIsHoveringInteractable(false);
+    const handleInteractableEnter = () => {
+      isHoveringRef.current = true;
+      setIsHoveringInteractable(true);
+    };
+    
+    const handleInteractableLeave = () => {
+      isHoveringRef.current = false;
+      setIsHoveringInteractable(false);
+    };
 
     // Remove pointer cursor for interactables
     const styleElement = document.createElement('style');
@@ -41,12 +65,12 @@ export const Cursor = ({ smoothing = 0.3 }: CursorProps) => {
     `;
     document.head.appendChild(styleElement);
 
-    // Function to setup event listeners
+    // Function to setup event listeners with passive option for better performance
     const setupInteractables = () => {
       const interactables = document.querySelectorAll('a, button, [role="button"], .interactable');
       interactables.forEach(el => {
-        el.addEventListener('mouseenter', handleInteractableEnter);
-        el.addEventListener('mouseleave', handleInteractableLeave);
+        el.addEventListener('mouseenter', handleInteractableEnter, { passive: true });
+        el.addEventListener('mouseleave', handleInteractableLeave, { passive: true });
       });
     };
 
@@ -60,7 +84,7 @@ export const Cursor = ({ smoothing = 0.3 }: CursorProps) => {
       childList: true,
     });
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -92,7 +116,7 @@ export const Cursor = ({ smoothing = 0.3 }: CursorProps) => {
     };
     
     checkMobile();
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener('resize', checkMobile, { passive: true });
     
     return () => window.removeEventListener('resize', checkMobile);
   }, []);

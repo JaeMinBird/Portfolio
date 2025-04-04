@@ -1,27 +1,47 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Image from 'next/image';
-import { Header } from '@/components/Header';
+import { Header } from '@/components/NavBar';
 import { ParallaxText } from '@/components/ParallaxText';
 import { About } from '@/components/About';
-import { ParallaxGrid } from '@/components/ParallaxGrid';
-import { ExperienceTerminal } from '@/components/ExperienceTerminal';
-import { ProjectsTerminal } from '@/components/ProjectsTerminal';
-import { ContactTerminal } from '@/components/ContactTerminal';
-import { Cursor } from '@/components/Cursor';
+import dynamic from 'next/dynamic';
+
+// Dynamically import heavy components
+const ParallaxGrid = dynamic(() => import('@/components/ParallaxGrid').then(mod => ({ default: mod.ParallaxGrid })), { ssr: false });
+const ExperienceTerminal = dynamic(() => import('@/components/ExperienceTerminal').then(mod => ({ default: mod.ExperienceTerminal })), { ssr: false });
+const ProjectsTerminal = dynamic(() => import('@/components/ProjectsTerminal').then(mod => ({ default: mod.ProjectsTerminal })), { ssr: false });
+const ContactTerminal = dynamic(() => import('@/components/ContactTerminal').then(mod => ({ default: mod.ContactTerminal })), { ssr: false });
+const Cursor = dynamic(() => import('@/components/Cursor').then(mod => ({ default: mod.Cursor })), { ssr: false });
+
+// Loading placeholder component
+const TerminalLoading = () => (
+  <div className="w-full h-[400px] bg-black/50 backdrop-blur-sm border border-white/30 rounded-md flex items-center justify-center">
+    <div className="animate-pulse text-white font-mono">Loading...</div>
+  </div>
+);
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [windowHeight, setWindowHeight] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     // Only run on client side
     setWindowHeight(window.innerHeight);
     setScrollY(window.scrollY);
+    setIsLoaded(true);
     
+    // Throttle scroll handler for better performance
+    let ticking = false;
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     const handleResize = () => {
@@ -50,9 +70,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black text-white px-4 sm:p-8 relative">
-      {!isMobile && <Cursor />}
+      {!isMobile && isLoaded && <Cursor />}
       <Header />
-      <ParallaxGrid scrollY={scrollY} />
+      {isLoaded && <ParallaxGrid scrollY={scrollY} />}
       
       <section 
         id="hero" 
@@ -67,6 +87,7 @@ export default function Home() {
             width={isMobile ? 250 : 500} 
             height={isMobile ? 150 : 300} 
             className="mx-auto transition-all duration-300 invert hover:invert-0 contrast-125"
+            priority
           />
         </div>
       </section>
@@ -94,15 +115,21 @@ export default function Home() {
       </section>
 
       <section id="experience" className="relative z-10 scroll-mt-20">
-        <ExperienceTerminal />
+        <Suspense fallback={<TerminalLoading />}>
+          <ExperienceTerminal />
+        </Suspense>
       </section>
 
       <section id="projects" className="mt-[25vh] relative z-10 scroll-mt-20">
-        <ProjectsTerminal />
+        <Suspense fallback={<TerminalLoading />}>
+          <ProjectsTerminal />
+        </Suspense>
       </section>
       
       <section id="contact" className="mt-[25vh] relative z-10 scroll-mt-20">
-        <ContactTerminal />
+        <Suspense fallback={<TerminalLoading />}>
+          <ContactTerminal />
+        </Suspense>
       </section>
       
       <div className="vhs-overlay"></div>

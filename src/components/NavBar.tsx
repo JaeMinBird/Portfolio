@@ -62,7 +62,7 @@ export function Header() {
             href="https://www.linkedin.com/in/jaeminbirdsall" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="social-icon-glow p-1"
+            className="social-icon-glow p-1 cursor-pointer"
           >
             <Image
               src="/linkedin-pixel.svg"
@@ -77,7 +77,7 @@ export function Header() {
             href="https://github.com/JaeMinBird" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="social-icon-glow p-1"
+            className="social-icon-glow p-1 cursor-pointer"
           >
             <Image
               src="/github-pixel.svg"
@@ -141,7 +141,7 @@ export function Header() {
               href="https://www.linkedin.com/in/jaeminbirdsall" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="social-icon-glow p-1"
+              className="social-icon-glow p-1 cursor-pointer"
             >
               <Image
                 src="/linkedin-pixel.svg"
@@ -156,7 +156,7 @@ export function Header() {
               href="https://github.com/JaeMinBird" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="social-icon-glow p-1"
+              className="social-icon-glow p-1 cursor-pointer"
             >
               <Image
                 src="/github-pixel.svg"
@@ -177,7 +177,7 @@ export function Header() {
           <Link 
             key={item.id}
             href={item.href}
-            className="block relative group"
+            className="block relative group cursor-pointer"
             onMouseEnter={() => setHoveredItem(item.id)}
             onMouseLeave={() => setHoveredItem(null)}
             onClick={(e) => handleClick(e, item.href)}
